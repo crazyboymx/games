@@ -65,7 +65,7 @@ class MainLayer : public CCLayer, public Drop::Listener
     CCArray *drops, *bullets;
 public:
     MainLayer(): ncells(36), xcells(6), ycells(6),
-        cellW(60), cellH(60),
+        cellW(50), cellH(50),
         drops(NULL), bullets(NULL)
     {
     }
