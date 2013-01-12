@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "cocoa/CCGeometry.h"
+using namespace cocos2d;
 
 class CocosUtils
 {

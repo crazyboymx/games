@@ -1,5 +1,7 @@
 
-static GameController* GameController::instance = NULL;
+#include "TenDrops.h"
+
+/*static*/ GameController* GameController::instance = NULL;
 
 void GameController::startGame()
 {
@@ -15,7 +17,7 @@ void GameController::startGame()
 void GameController::exitGame()
 {
 	CCDirector::sharedDirector()->end();
-	delete this;
+	this->release();
 }
 
 void GameController::gameOver()
@@ -23,9 +25,12 @@ void GameController::gameOver()
 	CCDirector::sharedDirector()->replaceScene(GameOverScene::create());
 }
 
-GameController* GameController::sharedInstance()
+/*static*/ GameController* GameController::sharedInstance()
 {
 	if (!instance)
-		instance = new GameController();
+	{
+		instance = GameController::create();
+		instance->retain();
+	}
 	return instance;
 }

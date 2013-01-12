@@ -1,4 +1,6 @@
 
+#include "TenDrops.h"
+
 MainLayer::~MainLayer()
 {
 	if (drops)
@@ -19,8 +21,11 @@ void MainLayer::addDrops()
 	forn(i, 0, ndrops)
 	{
 		Drop *drop = new Drop(Utils::rand(1, 4), this);
-		drop->getSprite()->setPosition(pos[i] % xcells * cellW + cellW/2,
-			pos[i] / xcells * cellH + cellH/2);
+		drop->init();
+		int cellW = drop->getRect().size.width;
+		int cellH = drop->getRect().size.height;
+		drop->getSprite()->setPosition(ccp(pos[i] % xcells * cellW + cellW/2,
+			pos[i] / xcells * cellH + cellH/2));
 	}
 
 	delete[] pos;
@@ -28,10 +33,12 @@ void MainLayer::addDrops()
 
 void MainLayer::removeOutBullets()
 {
-	CCSprite* bullet = NULL;
-	CCARRAY_FOREACH_REVERSE(bullets, bullet)
+	CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
+	CCObject* o = NULL;
+	CCARRAY_FOREACH_REVERSE(bullets, o)
 	{
-		if (!getSpriteRect(bullet).intersectsRect(CCRectMake(0, 0,
+		CCSprite* bullet = (CCSprite*)o;
+		if (!CocosUtils::getSpriteRect(bullet).intersectsRect(CCRectMake(0, 0,
 			screenSize.width, screenSize.height)))
 			onSpriteRemoved(bullet);
 	}
@@ -39,14 +46,17 @@ void MainLayer::removeOutBullets()
 
 void MainLayer::conflictDetect()
 {
-	CCSprite* bullet = NULL;
-	CCSprite* drop = NULL;
-	CCARRAY_FOREACH_REVERSE(bullets, bullet)
+	CCObject* o = NULL;
+	CCARRAY_FOREACH_REVERSE(bullets, o)
 	{
+		CCSprite* bullet = (CCSprite*)o;
 		bool bulletNeedRemove = false;
-		CCARRAY_FOREACH_REVERSE(drop, drops)
+
+		CCObject* o2 = NULL;
+		CCARRAY_FOREACH_REVERSE(drops, o2)
 		{
-			if (getSpriteRect(bullet).intersectsRect(getSpriteRect(drop)))
+			Drop* drop = (Drop*)o2;
+			if (CocosUtils::getSpriteRect(bullet).intersectsRect(drop->getRect()))
 			{
 				bulletNeedRemove = true;
 				drop->addWater();
@@ -60,32 +70,36 @@ void MainLayer::conflictDetect()
 
 void MainLayer::onDropBomp( Drop* drop )
 {
-	const CCPoint moves[4] = {CCPointMake(0, 1), CCPointMake(0, -1),
-		CCPointMake(-1, 0), CCPointMake(1,0)};
+	int cellW = drop->getRect().size.width;
+	int cellH = drop->getRect().size.height;
+	const CCPoint moves[4] = {CCPointMake(0, cellH), CCPointMake(0, -cellH),
+		CCPointMake(-cellW, 0), CCPointMake(cellW,0)};
 	forn(i, 0, 4)
 	{
-		CCSprite* bullet = CCSprite::spriteWithFile(abs(moves[0]) < 0.1
+		CCSprite* bullet = CCSprite::create(fabs(moves[0].x) < 0.1
 			? "bullet_ver.png" : "bullet_hor.png");
 		bullet->setTag(SPRITE_BULLET);
-		CCAction* action = CCRepeat::create(CCMoveBy::create(
+		CCAction* action = CCRepeatForever::create(CCMoveBy::create(
 			0.5, moves[i]));
-		onSpriteAdded(bullet)
-			bullet->runAction(action);
+		onSpriteAdded(bullet);
+		bullet->runAction(action);
 	}
 	drop->destroy();
 }
 
 void MainLayer::onSpriteRemoved( CCSprite* sprite )
 {
-	CCArray* array = sprite->getTag() == SPRITE_DROP ? drops : bullets;
-	array->removeObject(sprite);
-	removeChild(sprite);
+	bool isDrop = sprite->getTag() == SPRITE_DROP;
+	CCArray* array = isDrop ? drops : bullets;
+	array->removeObject(isDrop ? ((CCObject*)(Drop*)sprite->getUserData()) : sprite);
+	removeChild(sprite, true);
 }
 
 void MainLayer::onSpriteAdded( CCSprite* sprite )
 {
-	CCArray* array = sprite->getTag() == SPRITE_DROP ? drops : bullets;
-	array->addObject(sprite);
+	bool isDrop = sprite->getTag() == SPRITE_DROP;
+	CCArray* array = isDrop ? drops : bullets;
+	array->addObject(isDrop ? ((CCObject*)(Drop*)sprite->getUserData()) : sprite);
 	addChild(sprite);
 }
 
@@ -102,9 +116,10 @@ void MainLayer::update( float dt )
 
 Drop* MainLayer::hitTest( const CCPoint& p )
 {
-	Drop* drop = NULL;
-	CCARRAY_FOREACH(drops, drop)
+	CCObject* o;
+	CCARRAY_FOREACH(drops, o)
 	{
+		Drop* drop = (Drop*)o;
 		if (drop->getRect().containsPoint(p))
 			return drop;
 	}
@@ -122,6 +137,7 @@ void MainLayer::ccTouchesEnded( CCSet *pTouches, CCEvent *pEvent )
 
 bool MainLayer::init()
 {
+	CCLayer::init();
 	drops = CCArray::create();
 	drops->retain();
 
@@ -131,4 +147,5 @@ bool MainLayer::init()
 	addDrops();
 	setTouchEnabled(true);
 	scheduleUpdate();
+	return true;
 }

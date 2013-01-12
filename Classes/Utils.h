@@ -8,6 +8,7 @@
 class Utils
 {
 	static bool seeded;
+public:
 	static int rand(int i, int j);
 
 	template<typename T>
@@ -16,7 +17,7 @@ class Utils
 		int last = offset+length-1;
 		forn(i, offset, last)
 		{
-			std:swap(arr[i], arr[rand(i+1, last)]);
+			CC_SWAP(arr[i], arr[rand(i+1, last)], T);
 		}
 	}
 };

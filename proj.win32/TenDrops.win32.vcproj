@@ -53,7 +53,8 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="TenDrops.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4267;4251;4244"
@@ -198,12 +199,68 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Classes\HelloWorldScene.cpp"
+				RelativePath="..\Classes\CocosUtils.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Classes\Drop.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\GameController.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\main.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Classes\MainLayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\MainScene.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\Pch.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Classes\Utils.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -215,15 +272,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Classes\HelloWorldScene.h"
-				>
-			</File>
-			<File
 				RelativePath=".\main.h"
 				>
 			</File>
 			<File
 				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\TenDrops.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\Utils.h"
 				>
 			</File>
 		</Filter>

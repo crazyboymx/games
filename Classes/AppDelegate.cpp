@@ -1,7 +1,6 @@
 #include "TenDrops.h"
 #include "CCEGLView.h"
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
 using namespace CocosDenshion;

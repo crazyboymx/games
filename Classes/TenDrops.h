@@ -2,7 +2,6 @@
 #define __PINGANY_TENDROPS_H__
 
 #include "cocos2d.h"
-#include "SimpleAudioEngine.h"
 
 #include "Utils.h"
 #include "CocosUtils.h"
@@ -13,6 +12,12 @@ class MainLayer;
 class MainScene;
 class GameOverScene;
 class ExitButtonLayer;
+
+enum
+{
+    SPRITE_DROP = 1,
+    SPRITE_BULLET
+};
 
 class ExitButtonLayer: public CCLayer
 {
@@ -25,12 +30,11 @@ public:
 class MainScene : public CCScene
 {
 public:
-    MainScene(){}
     virtual bool init();
     CREATE_FUNC(MainScene);
 };
 
-class Drop
+class Drop : public CCObject
 {
 public:
     class Listener
@@ -45,24 +49,23 @@ private:
     Listener* listener;
     CC_SYNTHESIZE_READONLY(CCSprite*, sprite, Sprite);
 
+    void replaceImage();
 public:
     Drop(int water, Listener* listener): water(water),
         listener(listener)
     {}
+    bool init();
+
     virtual ~Drop()
     {
         destroy();
     }
 
-    bool init();
-
-    const CCRect& getRect() { return CocosUtils::getSpriteRect(sprite); }
+    CCRect getRect() { return CocosUtils::getSpriteRect(sprite); }
 
     static CCSprite* getSpriteByWater(int water);
 
     void addWater();
-
-    void replaceImage();
 
     void destroy();
 };
@@ -110,15 +113,17 @@ private:
     void addDrops();
 };
 
-class GameController
+class GameController : public CCObject
 {
     bool started;
     static GameController* instance;
-public:
     GameController(): started(false)
     {}
+    bool init() { return true; }
+    CREATE_FUNC(GameController);
+public:
 
-    GameController* sharedInstance();
+    static GameController* sharedInstance();
 
     void startGame();
 
