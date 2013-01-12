@@ -34,40 +34,28 @@ public:
     CREATE_FUNC(MainScene);
 };
 
-class Drop : public CCObject
+class Drop : public CCSprite
 {
 public:
     class Listener
     {
 	public:
         virtual void onDropBomp(Drop*) = 0;
-        virtual void onSpriteAdded(CCSprite*) = 0;
-        virtual void onSpriteRemoved(CCSprite*) = 0;
     };
 private:
     int water;
     Listener* listener;
-    CC_SYNTHESIZE_READONLY(CCSprite*, sprite, Sprite);
 
-    void replaceImage();
+    void updateImage();
 public:
-    Drop(int water, Listener* listener): water(water),
-        listener(listener)
+    Drop(): water(0),
+        listener(NULL)
     {}
-    bool init();
+    bool init(int water, Listener* listener);
 
-    virtual ~Drop()
-    {
-        destroy();
-    }
-
-    CCRect getRect() { return CocosUtils::getSpriteRect(sprite); }
-
-    static CCSprite* getSpriteByWater(int water);
+    CCRect getRect() { return CocosUtils::getSpriteRect(this); }
 
     void addWater();
-
-    void destroy();
 };
 
 class MainLayer : public CCLayer, public Drop::Listener

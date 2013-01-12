@@ -1,20 +1,28 @@
 #include "TenDrops.h"
 
-bool Drop::init()
+bool Drop::init(int water, Listener* listener)
 {
-	sprite = getSpriteByWater(water);
-	sprite->setUserData(this);
-	sprite->retain();
-	listener->onSpriteAdded(sprite);
-	return true;
+	do
+	{
+		CC_BREAK_IF(!CCSprite::init());
+
+		this->water = water;
+		this->listener = listener;
+		this->setUserData(this);
+		this->setTag(SPRITE_DROP);
+		updateImage();
+
+		return true;
+	} while (false);
+
+	return false;
 }
 
-/*static*/ CCSprite* Drop::getSpriteByWater( int water )
+static CCTexture2D* getTextureByWater( int water )
 {
-	CCSprite* sprite = CCSprite::create(CCString::createWithFormat("drop%d.png", water)
+	return CCTextureCache::sharedTextureCache()
+		->addImage(CCString::createWithFormat("drop%d.png", water)
 		->getCString());
-	sprite->setTag(SPRITE_DROP);
-	return sprite;
 }
 
 void Drop::addWater()
@@ -23,29 +31,15 @@ void Drop::addWater()
 	if (water > 4)
 		listener->onDropBomp(this);
 	else
-		replaceImage();
+		updateImage();
 }
 
-void Drop::replaceImage()
+void Drop::updateImage()
 {
-	this->retain();
-	CCPoint pos = sprite->getPosition();
-	listener->onSpriteRemoved(sprite);
-	sprite->release();
-	sprite = getSpriteByWater(water);
-	sprite->setPosition(pos);
-	sprite->setUserData(this);
-	sprite->retain();
-	listener->onSpriteAdded(sprite);
-	this->release();
-}
+	CCTexture2D* tex = getTextureByWater(water);
+	setTexture(tex);
 
-void Drop::destroy()
-{
-	if (sprite)
-	{
-		listener->onSpriteRemoved(sprite);
-		sprite->release();
-		sprite = NULL;
-	}
+	CCRect rect = CCRectZero;
+    rect.size = tex->getContentSize();
+    this->setTextureRect(rect);
 }

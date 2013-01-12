@@ -3,10 +3,8 @@
 
 MainLayer::~MainLayer()
 {
-	if (drops)
-		drops->release();
-	if (bullets)
-		bullets->release();
+	CC_SAFE_RELEASE_NULL(drops);
+	CC_SAFE_RELEASE_NULL(bullets);
 }
 
 void MainLayer::addDrops()
@@ -16,14 +14,15 @@ void MainLayer::addDrops()
 	int *pos = new int[ncells];
 	forn(i, 0, ncells)
 		pos[i] = i;
-	//Utils::shuffle(pos, 0, ncells);
+	Utils::shuffle(pos, 0, ncells);
 
 	forn(i, 0, ndrops)
 	{
-		Drop *drop = new Drop(Utils::rand(1, 4), this);
-		drop->init();
-		drop->getSprite()->setPosition(ccp(pos[i] % xcells * cellW + cellW/2,
+		Drop *drop = new Drop();
+		drop->init(Utils::rand(1, 4), this);
+		drop->setPosition(ccp(pos[i] % xcells * cellW + cellW/2,
 			pos[i] / xcells * cellH + cellH/2));
+		onSpriteAdded(drop);
 	}
 
 	delete[] pos;
@@ -71,14 +70,14 @@ void MainLayer::onDropBomp( Drop* drop )
 	{
 		CCSprite* bullet = CCSprite::create(fabs(moves[i].x) < 0.1
 			? "bullet_ver.png" : "bullet_hor.png");
-		bullet->setPosition(drop->getSprite()->getPosition());
+		bullet->setPosition(drop->getPosition());
 		bullet->setTag(SPRITE_BULLET);
 		CCAction* action = CCRepeatForever::create(CCMoveBy::create(
 			0.5, moves[i]));
 		onSpriteAdded(bullet);
 		bullet->runAction(action);
 	}
-	drop->destroy();
+	onSpriteRemoved(drop);
 }
 
 void MainLayer::onSpriteRemoved( CCSprite* sprite )
