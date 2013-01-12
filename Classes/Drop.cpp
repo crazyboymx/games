@@ -8,7 +8,6 @@ bool Drop::init(int water, Listener* listener)
 
 		this->water = water;
 		this->listener = listener;
-		this->setUserData(this);
 		this->setTag(SPRITE_DROP);
 		updateImage();
 

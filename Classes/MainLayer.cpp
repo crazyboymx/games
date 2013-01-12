@@ -84,7 +84,7 @@ void MainLayer::onSpriteRemoved( CCSprite* sprite )
 {
 	bool isDrop = sprite->getTag() == SPRITE_DROP;
 	CCArray* array = isDrop ? drops : bullets;
-	array->removeObject(isDrop ? ((CCObject*)(Drop*)sprite->getUserData()) : sprite);
+	array->removeObject(sprite);
 	removeChild(sprite, true);
 }
 
@@ -92,7 +92,7 @@ void MainLayer::onSpriteAdded( CCSprite* sprite )
 {
 	bool isDrop = sprite->getTag() == SPRITE_DROP;
 	CCArray* array = isDrop ? drops : bullets;
-	array->addObject(isDrop ? ((CCObject*)(Drop*)sprite->getUserData()) : sprite);
+	array->addObject(sprite);
 	addChild(sprite);
 }
 
