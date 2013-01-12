@@ -10,6 +10,11 @@ class CocosUtils
 public:
 	static CCRect getSpriteRect(CCSprite* sprite);
 	static CCSize getScreenSize();
+
+	static CCString* toString(int value)
+	{
+		return CCString::createWithFormat("%d", value);
+	}
 };
 
 #endif

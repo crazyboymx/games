@@ -9,10 +9,14 @@ void GameController::startGame()
 	if (!started)
 	{
 		started = true;
-		CCDirector::sharedDirector()->runWithScene(MainScene::create());
+		mainScene = MainScene::create();
+		CCDirector::sharedDirector()->runWithScene(mainScene);
+		replayThisLevel();
 	}
 	else
-		CCDirector::sharedDirector()->replaceScene(MainScene::create());
+	{
+		replayThisLevel();
+	}
 }
 
 void GameController::exitGame()
@@ -23,7 +27,7 @@ void GameController::exitGame()
 
 void GameController::gameOver()
 {
-	CCDirector::sharedDirector()->replaceScene(GameOverScene::create());
+	CCDirector::sharedDirector()->pushScene(GameOverScene::create());
 }
 
 /*static*/ GameController* GameController::sharedInstance()

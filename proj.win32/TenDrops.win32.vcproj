@@ -219,6 +219,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\Classes\CocosUtils.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Classes\Drop.cpp"
 				>
 				<FileConfiguration
@@ -243,16 +247,16 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\main.cpp"
+				RelativePath="..\Classes\GameOverScene.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Classes\InformationLayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\LevelConfiguration.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\Classes\MainLayer.cpp"
@@ -291,6 +295,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\Classes\pch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\TenDrops.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Classes\Utils.cpp"
 				>
 				<FileConfiguration
@@ -310,6 +322,18 @@
 			<File
 				RelativePath="..\Classes\AppDelegate.h"
 				>
+			</File>
+			<File
+				RelativePath=".\main.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\main.h"

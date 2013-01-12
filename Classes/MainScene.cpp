@@ -6,49 +6,42 @@ bool MainScene::init()
 {
 	CCScene::init();
 	CCLayerColor* backgroundLayer = CCLayerColor::create(
-		ccc4(255, 255, 255, 255));
+		ccc4(172, 177, 181, 255));
 	addChild(backgroundLayer);
+
+	CCSize size = CocosUtils::getScreenSize();
+	// put InformationLayer in right top
+	InformationLayer* infoLayer = InformationLayer::create();
+	// infoLayer->ignoreAnchorPointForPosition(false);
+	// infoLayer->setAnchorPoint(ccp(0, 0));
+	CCSize s = infoLayer->getContentSize();
+	infoLayer->setPosition(size.width - s.width/2, size.height - s.height/2);
+	addChild(infoLayer);
 
 	ExitButtonLayer* exitButtonLayer = ExitButtonLayer::create();
 	addChild(exitButtonLayer);
 
 	MainLayer* mainLayer = MainLayer::create();
 	addChild(mainLayer);
+
+	this->infoLayer = infoLayer;
+	infoLayer->retain();
+
+	this->mainLayer = mainLayer;
+	mainLayer->retain();
+
 	return true;
 }
 
-bool GameOverScene::init()
+MainScene::~MainScene()
 {
-	do
-	{
-		CC_BREAK_IF(!CCScene::init());
-
-		CCLayerColor* backgroundLayer = CCLayerColor::create(
-			ccc4(255, 255, 255, 255));
-		addChild(backgroundLayer);
-
-		CCSize screenSize = CocosUtils::getScreenSize();
-
-		CCMenuItemFont* restartItem = CCMenuItemFont::create("Restart", this,
-			menu_selector(GameOverScene::menuCallback));
-		restartItem->setFontName("Consola");
-		restartItem->setFontSize(36);
-
-		CCMenu* menu = CCMenu::create(restartItem, NULL);
-		menu->alignItemsVertically();
-
-		menu->setPosition(screenSize.width/2, screenSize.height/2);
-		addChild(menu);
-
-		return true;
-	} while (false);
-
-	return false;
+	CC_SAFE_RELEASE_NULL(mainLayer);
+	CC_SAFE_RELEASE_NULL(infoLayer);
 }
 
-void GameOverScene::menuCallback(CCObject* o)
+void MainScene::startPlay(LevelConfiguration* config)
 {
-	GameController::sharedInstance()->startGame();
+	mainLayer->startPlay(config);
 }
 
 bool ExitButtonLayer::init()

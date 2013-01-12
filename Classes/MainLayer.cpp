@@ -8,25 +8,19 @@ MainLayer::~MainLayer()
 	CC_SAFE_RELEASE_NULL(bullets);
 }
 
-void MainLayer::addDrops()
+void MainLayer::addDrops(LevelConfiguration* config)
 {
-	int ndrops = Utils::rand(ncells*3/4, ncells);
-
-	int *pos = new int[ncells];
+	char *waters = config->getWaters();
 	forn(i, 0, ncells)
-		pos[i] = i;
-	Utils::shuffle(pos, 0, ncells);
-
-	forn(i, 0, ndrops)
 	{
+		if (waters[i] <= 0 || waters[i] > 4)
+			continue;
 		Drop *drop = new Drop();
-		drop->init(Utils::rand(1, 4), this);
-		drop->setPosition(ccp(pos[i] % xcells * cellW + cellW/2,
-			pos[i] / xcells * cellH + cellH/2));
+		drop->init(waters[i], this);
+		drop->setPosition(ccp(i % xcells * cellW + cellW/2,
+			i / xcells * cellH + cellH/2));
 		addSprite(drop);
 	}
-
-	delete[] pos;
 }
 
 void MainLayer::removeOutBullets()
@@ -138,8 +132,16 @@ bool MainLayer::init()
 	bullets = CCArray::create();
 	bullets->retain();
 
-	addDrops();
 	setTouchEnabled(true);
 	scheduleUpdate();
 	return true;
+}
+
+void MainLayer::startPlay(LevelConfiguration* config)
+{
+	drops->removeAllObjects();
+	bullets->removeAllObjects();
+	removeAllChildrenWithCleanup(true);
+
+	addDrops(config);
 }

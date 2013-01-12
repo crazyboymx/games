@@ -9,9 +9,13 @@
 using namespace cocos2d;
 
 class MainLayer;
+class InformationLayer;
 class MainScene;
 class GameOverScene;
 class ExitButtonLayer;
+
+class GameController;
+class LevelConfiguration;
 
 enum
 {
@@ -29,9 +33,13 @@ public:
 
 class MainScene : public CCScene
 {
+    CC_SYNTHESIZE_READONLY(InformationLayer*, infoLayer, InfoLayer);
+    CC_SYNTHESIZE_READONLY(MainLayer*, mainLayer, MainLayer);
 public:
+    ~MainScene();
     virtual bool init();
     CREATE_FUNC(MainScene);
+    void startPlay(LevelConfiguration* config);
 };
 
 class Drop : public CCSprite
@@ -74,6 +82,8 @@ public:
 
     virtual bool init();
 
+    void startPlay(LevelConfiguration* config);
+
     // override
     virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 
@@ -100,14 +110,62 @@ private:
 
     void removeOutBullets();
 
-    void addDrops();
+    void addDrops(LevelConfiguration* config);
+};
+
+class InformationLayer : public CCLayer
+{
+    bool init();
+    CCLabelTTF *levelInfo, *scoreInfo, *leftDropInfo;
+
+    CC_SYNTHESIZE_READONLY(int, level, Level);
+    CC_SYNTHESIZE_READONLY(int, score, Score);
+    CC_SYNTHESIZE_READONLY(int, leftDrops, LeftDrops);
+public:
+    InformationLayer(): levelInfo(NULL), scoreInfo(NULL), leftDropInfo(NULL)
+    {}
+    ~InformationLayer()
+    {
+        CC_SAFE_RELEASE_NULL(levelInfo);
+        CC_SAFE_RELEASE_NULL(scoreInfo);
+        CC_SAFE_RELEASE_NULL(leftDropInfo);
+    }
+    void setLevel(int level);
+    void setScore(int score);
+    void setLeftDrops(int leftDrops);
+
+    void addScore(int score);
+    void addDrops(int drops);
+
+    CREATE_FUNC(InformationLayer);
+};
+
+class LevelConfiguration : public CCObject
+{
+    const static int ncells = 36;
+    char waters[100];
+    CC_SYNTHESIZE_READONLY(int, leftDrops, LeftDrops);
+    LevelConfiguration(){}
+    bool init() { return true; }
+
+    CREATE_FUNC(LevelConfiguration);
+public:
+    char* getWaters() { return waters; }
+    static LevelConfiguration* getRandomConfiguration();
 };
 
 class GameController : public CCObject
 {
     bool started;
+    int level;
+    int score;
+    int leftDrops;
+
+    MainScene* mainScene;
+
     static GameController* instance;
-    GameController(): started(false)
+    GameController(): started(false), mainScene(NULL),
+        level(0), score(0), leftDrops(0)
     {}
     bool init() { return true; }
     CREATE_FUNC(GameController);
@@ -120,6 +178,48 @@ public:
     void exitGame();
 
     void gameOver();
+
+    LevelConfiguration* getLevelConfig(int level)
+    {
+        // TODO:
+        return LevelConfiguration::getRandomConfiguration();
+    }
+
+    void replayThisLevel() { enterLevel(level); }
+    void enterNextLevel() { enterLevel(level+1); }
+    void enterLevel(int level)
+    {
+        LevelConfiguration* config = getLevelConfig(level);
+
+        this->level = level;
+        mainScene->getInfoLayer()->setLevel(level);
+
+        setLeftDrops(config->getLeftDrops());
+        setScore(0);
+        mainScene->startPlay(config);
+    }
+
+    void addScore(int s)
+    {
+        setScore(score + s);
+    }
+
+    void setScore(int s)
+    {
+        this->score = s;
+        mainScene->getInfoLayer()->setScore(score);
+    }
+
+    void addLeftDrops(int drops)
+    {
+        setLeftDrops(leftDrops + drops);
+    }
+
+    void setLeftDrops(int drops)
+    {
+        leftDrops = drops;
+        mainScene->getInfoLayer()->setLeftDrops(drops);
+    }
 };
 
 class GameOverScene : public CCScene
