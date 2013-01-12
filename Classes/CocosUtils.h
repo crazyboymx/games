@@ -9,6 +9,7 @@ class CocosUtils
 {
 public:
 	static CCRect getSpriteRect(CCSprite* sprite);
+	static CCSize getScreenSize();
 };
 
 #endif

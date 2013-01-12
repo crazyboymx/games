@@ -127,6 +127,7 @@ class GameOverScene : public CCScene
 public:
     bool init();
     CREATE_FUNC(GameOverScene);
+	void menuCallback(CCObject* o);
 };
 
 #endif

@@ -1,4 +1,5 @@
 
+#include "pch.h"
 #include "TenDrops.h"
 
 /*static*/ GameController* GameController::instance = NULL;
