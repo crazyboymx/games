@@ -210,6 +210,12 @@ public:
 
     void gameOver();
 
+    void gameFailed()
+    {
+        // TODO
+        gameOver();
+    }
+
     LevelConfiguration* getLevelConfig(int level)
     {
         // TODO:
@@ -248,6 +254,11 @@ public:
 
     void setLeftDrops(int drops)
     {
+        if (drops <= 0)
+        {
+            gameFailed();
+            return;
+        }
         leftDrops = drops;
         mainScene->getInfoLayer()->setLeftDrops(drops);
     }
