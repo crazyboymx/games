@@ -18,10 +18,12 @@ bool InformationLayer::init()
 		CCLabelTTF* levelInfo = CCLabelTTF::create("0", "Consola", 14);
 		// Coordinates related to center of background
 		levelInfo->setPosition(ccp(0, h/2-19));
+		levelInfo->setColor(ccc3(0, 255, 0));
 		addChild(levelInfo);
 
 		CCLabelTTF* scoreInfo = CCLabelTTF::create("0", "Consola", 14);
 		scoreInfo->setPosition(ccp(0, h/2-32));
+		scoreInfo->setColor(ccc3(0, 255, 0));
 		addChild(scoreInfo);
 
 		CCLabelTTF* leftDropInfo = CCLabelTTF::create("0", "Consola", 32);
