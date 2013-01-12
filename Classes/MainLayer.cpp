@@ -57,8 +57,10 @@ void MainLayer::conflictDetect()
 	}
 }
 
-void MainLayer::onDropBomp( Drop* drop )
+void MainLayer::onDropBump( Drop* drop )
 {
+	if (gameListener)
+		gameListener->onDropBump(drop);
 	const CCPoint moves[4] = {CCPointMake(0, cellH), CCPointMake(0, -cellH),
 		CCPointMake(-cellW, 0), CCPointMake(cellW,0)};
 	forn(i, 0, 4)
@@ -93,13 +95,22 @@ void MainLayer::addSprite( CCSprite* sprite )
 
 void MainLayer::update( float dt )
 {
+	bool originalCanAddWater = canAddWater();
 	removeOutBullets();
 	if (isReadyToOver())
 	{
 		GameController::sharedInstance()->gameOver();
 		return;
 	}
+	if (!originalCanAddWater && canAddWater())
+		bumpChainFinished();
 	conflictDetect();
+}
+
+void MainLayer::bumpChainFinished()
+{
+	if (gameListener)
+		gameListener->onBumpChainFinished();
 }
 
 Drop* MainLayer::hitTest( const CCPoint& p )
@@ -116,10 +127,15 @@ Drop* MainLayer::hitTest( const CCPoint& p )
 
 void MainLayer::ccTouchesEnded( CCSet *pTouches, CCEvent *pEvent )
 {
+	if (!canAddWater())
+		return;
+
 	CCTouch* touch = (CCTouch*)pTouches->anyObject();
 	Drop* drop = hitTest(touch->getLocation());
 	if (!drop)
 		return;
+	if (gameListener)
+		gameListener->onTouchDrop(drop);
 	drop->addWater();
 }
 

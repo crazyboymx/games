@@ -10,6 +10,7 @@ void GameController::startGame()
 	{
 		started = true;
 		mainScene = MainScene::create();
+		mainScene->getMainLayer()->setGameListener(this);
 		CCDirector::sharedDirector()->runWithScene(mainScene);
 		replayThisLevel();
 	}

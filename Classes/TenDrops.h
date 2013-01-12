@@ -48,7 +48,7 @@ public:
     class Listener
     {
 	public:
-        virtual void onDropBomp(Drop*) = 0;
+        virtual void onDropBump(Drop*) = 0;
     };
 private:
     int water;
@@ -71,13 +71,22 @@ class MainLayer : public CCLayer, public Drop::Listener
     int ncells, xcells, ycells;
     int cellW, cellH;
     CCArray *drops, *bullets;
-public:
     MainLayer(): ncells(36), xcells(6), ycells(6),
         cellW(50), cellH(50),
         drops(NULL), bullets(NULL)
     {
     }
+public:
+    class GameListener
+    {
+	public:
+        virtual void onTouchDrop(Drop* drop) = 0;
+        virtual void onDropBump(Drop* drop) = 0;
+        virtual void onBumpChainFinished() = 0;
+    };
+    CC_SYNTHESIZE(GameListener*, gameListener, GameListener);
 
+public:
     ~MainLayer();
 
     virtual bool init();
@@ -92,11 +101,12 @@ public:
     // override
     virtual void update(float dt);
 
+    bool canAddWater() { return bullets->count() == 0; }
     void addSprite(CCSprite* sprite);
 
     void removeSprite(CCSprite* sprite);
 
-    void onDropBomp(Drop* drop);
+    void onDropBump(Drop* drop);
 
     CREATE_FUNC(MainLayer);
 
@@ -111,6 +121,8 @@ private:
     void removeOutBullets();
 
     void addDrops(LevelConfiguration* config);
+
+    void bumpChainFinished();
 };
 
 class InformationLayer : public CCLayer
@@ -154,22 +166,41 @@ public:
     static LevelConfiguration* getRandomConfiguration();
 };
 
-class GameController : public CCObject
+class GameController : public CCObject, public MainLayer::GameListener
 {
     bool started;
     int level;
     int score;
     int leftDrops;
-
+    int bumpedDropForThisTouch;
     MainScene* mainScene;
 
     static GameController* instance;
     GameController(): started(false), mainScene(NULL),
-        level(0), score(0), leftDrops(0)
+        level(0), score(0), leftDrops(0),
+        bumpedDropForThisTouch(0)
     {}
     bool init() { return true; }
     CREATE_FUNC(GameController);
 public:
+
+    virtual void onDropBump(Drop* drop)
+    {
+        bumpedDropForThisTouch ++;
+        if (bumpedDropForThisTouch >= 3)
+        {
+            bumpedDropForThisTouch = 0;
+            addLeftDrops(1);
+        }
+    }
+
+    virtual void onTouchDrop(Drop* drop)
+    {
+        addLeftDrops(-1);
+        bumpedDropForThisTouch = 0;
+    }
+
+    virtual void onBumpChainFinished(){}
 
     static GameController* sharedInstance();
 

@@ -30,7 +30,7 @@ void Drop::addWater()
 {
 	water ++;
 	if (water > 4)
-		listener->onDropBomp(this);
+		listener->onDropBump(this);
 	else
 		updateImage();
 }
