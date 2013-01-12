@@ -5,7 +5,7 @@ bool Utils::seeded = false;
 
 int Utils::rand( int i, int j )
 {
-	if (seeded)
+	if (!seeded)
 	{
 		srand(time(NULL));
 		seeded = true;

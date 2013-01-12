@@ -16,14 +16,12 @@ void MainLayer::addDrops()
 	int *pos = new int[ncells];
 	forn(i, 0, ncells)
 		pos[i] = i;
-	Utils::shuffle(pos, 0, ncells);
+	//Utils::shuffle(pos, 0, ncells);
 
 	forn(i, 0, ndrops)
 	{
 		Drop *drop = new Drop(Utils::rand(1, 4), this);
 		drop->init();
-		int cellW = drop->getRect().size.width;
-		int cellH = drop->getRect().size.height;
 		drop->getSprite()->setPosition(ccp(pos[i] % xcells * cellW + cellW/2,
 			pos[i] / xcells * cellH + cellH/2));
 	}
@@ -34,10 +32,9 @@ void MainLayer::addDrops()
 void MainLayer::removeOutBullets()
 {
 	CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
-	CCObject* o = NULL;
-	CCARRAY_FOREACH_REVERSE(bullets, o)
+	for(int i = bullets->count() - 1; i >= 0; --i)
 	{
-		CCSprite* bullet = (CCSprite*)o;
+		CCSprite* bullet = (CCSprite*)bullets->objectAtIndex(i);
 		if (!CocosUtils::getSpriteRect(bullet).intersectsRect(CCRectMake(0, 0,
 			screenSize.width, screenSize.height)))
 			onSpriteRemoved(bullet);
@@ -46,16 +43,14 @@ void MainLayer::removeOutBullets()
 
 void MainLayer::conflictDetect()
 {
-	CCObject* o = NULL;
-	CCARRAY_FOREACH_REVERSE(bullets, o)
+	for(int i = bullets->count() - 1; i >= 0; --i)
 	{
-		CCSprite* bullet = (CCSprite*)o;
+		CCSprite* bullet = (CCSprite*)bullets->objectAtIndex(i);
 		bool bulletNeedRemove = false;
 
-		CCObject* o2 = NULL;
-		CCARRAY_FOREACH_REVERSE(drops, o2)
+		for(int j = drops->count() - 1; j >= 0; --j)
 		{
-			Drop* drop = (Drop*)o2;
+			Drop* drop = (Drop*)drops->objectAtIndex(j);
 			if (CocosUtils::getSpriteRect(bullet).intersectsRect(drop->getRect()))
 			{
 				bulletNeedRemove = true;
@@ -70,14 +65,13 @@ void MainLayer::conflictDetect()
 
 void MainLayer::onDropBomp( Drop* drop )
 {
-	int cellW = drop->getRect().size.width;
-	int cellH = drop->getRect().size.height;
 	const CCPoint moves[4] = {CCPointMake(0, cellH), CCPointMake(0, -cellH),
 		CCPointMake(-cellW, 0), CCPointMake(cellW,0)};
 	forn(i, 0, 4)
 	{
-		CCSprite* bullet = CCSprite::create(fabs(moves[0].x) < 0.1
+		CCSprite* bullet = CCSprite::create(fabs(moves[i].x) < 0.1
 			? "bullet_ver.png" : "bullet_hor.png");
+		bullet->setPosition(drop->getSprite()->getPosition());
 		bullet->setTag(SPRITE_BULLET);
 		CCAction* action = CCRepeatForever::create(CCMoveBy::create(
 			0.5, moves[i]));

@@ -17,8 +17,16 @@ public:
 		int last = offset+length-1;
 		forn(i, offset, last)
 		{
-			CC_SWAP(arr[i], arr[rand(i+1, last)], T);
+			swap(arr[i], arr[rand(i+1, last)]);
 		}
+	}
+
+	template<typename T>
+	static void swap(T &a, T& b)
+	{
+		T t = a;
+		a = b;
+		b = t;
 	}
 };
 #endif

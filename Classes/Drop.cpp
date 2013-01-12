@@ -28,10 +28,16 @@ void Drop::addWater()
 
 void Drop::replaceImage()
 {
+	this->retain();
+	CCPoint pos = sprite->getPosition();
 	listener->onSpriteRemoved(sprite);
+	sprite->release();
 	sprite = getSpriteByWater(water);
+	sprite->setPosition(pos);
 	sprite->setUserData(this);
+	sprite->retain();
 	listener->onSpriteAdded(sprite);
+	this->release();
 }
 
 void Drop::destroy()
