@@ -82,9 +82,9 @@ public:
     // override
     virtual void update(float dt);
 
-    void onSpriteAdded(CCSprite* sprite);
+    void addSprite(CCSprite* sprite);
 
-    void onSpriteRemoved(CCSprite* sprite);
+    void removeSprite(CCSprite* sprite);
 
     void onDropBomp(Drop* drop);
 

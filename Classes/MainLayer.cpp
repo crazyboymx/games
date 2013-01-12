@@ -22,7 +22,7 @@ void MainLayer::addDrops()
 		drop->init(Utils::rand(1, 4), this);
 		drop->setPosition(ccp(pos[i] % xcells * cellW + cellW/2,
 			pos[i] / xcells * cellH + cellH/2));
-		onSpriteAdded(drop);
+		addSprite(drop);
 	}
 
 	delete[] pos;
@@ -36,7 +36,7 @@ void MainLayer::removeOutBullets()
 		CCSprite* bullet = (CCSprite*)bullets->objectAtIndex(i);
 		if (!CocosUtils::getSpriteRect(bullet).intersectsRect(CCRectMake(0, 0,
 			screenSize.width, screenSize.height)))
-			onSpriteRemoved(bullet);
+			removeSprite(bullet);
 	}
 }
 
@@ -58,7 +58,7 @@ void MainLayer::conflictDetect()
 			}
 		}
 		if (bulletNeedRemove)
-			onSpriteRemoved(bullet);
+			removeSprite(bullet);
 	}
 }
 
@@ -74,13 +74,13 @@ void MainLayer::onDropBomp( Drop* drop )
 		bullet->setTag(SPRITE_BULLET);
 		CCAction* action = CCRepeatForever::create(CCMoveBy::create(
 			0.5, moves[i]));
-		onSpriteAdded(bullet);
+		addSprite(bullet);
 		bullet->runAction(action);
 	}
-	onSpriteRemoved(drop);
+	removeSprite(drop);
 }
 
-void MainLayer::onSpriteRemoved( CCSprite* sprite )
+void MainLayer::removeSprite( CCSprite* sprite )
 {
 	bool isDrop = sprite->getTag() == SPRITE_DROP;
 	CCArray* array = isDrop ? drops : bullets;
@@ -88,7 +88,7 @@ void MainLayer::onSpriteRemoved( CCSprite* sprite )
 	removeChild(sprite, true);
 }
 
-void MainLayer::onSpriteAdded( CCSprite* sprite )
+void MainLayer::addSprite( CCSprite* sprite )
 {
 	bool isDrop = sprite->getTag() == SPRITE_DROP;
 	CCArray* array = isDrop ? drops : bullets;
