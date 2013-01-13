@@ -71,6 +71,8 @@ class MainLayer : public CCLayer, public Drop::Listener
     int ncells, xcells, ycells;
     int cellW, cellH;
     CCArray *drops, *bullets;
+
+    CCRect bulletsArea;
     MainLayer(): ncells(36), xcells(6), ycells(6),
         cellW(50), cellH(50),
         drops(NULL), bullets(NULL)

@@ -15,6 +15,7 @@ public:
 	{
 		return CCString::createWithFormat("%d", value);
 	}
+	static bool containsRect(const CCRect& r1, const CCRect& r2);
 };
 
 #endif

@@ -25,12 +25,11 @@ void MainLayer::addDrops(LevelConfiguration* config)
 
 void MainLayer::removeOutBullets()
 {
-	CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
 	for(int i = bullets->count() - 1; i >= 0; --i)
 	{
 		CCSprite* bullet = (CCSprite*)bullets->objectAtIndex(i);
-		if (!CocosUtils::getSpriteRect(bullet).intersectsRect(CCRectMake(0, 0,
-			screenSize.width, screenSize.height)))
+		if (!CocosUtils::containsRect(bulletsArea,
+				CocosUtils::getSpriteRect(bullet)))
 			removeSprite(bullet);
 	}
 }
@@ -99,6 +98,7 @@ void MainLayer::update( float dt )
 	removeOutBullets();
 	if (isReadyToOver())
 	{
+		unscheduleUpdate();
 		GameController::sharedInstance()->gameOver();
 		return;
 	}
@@ -127,8 +127,10 @@ Drop* MainLayer::hitTest( const CCPoint& p )
 
 void MainLayer::ccTouchesEnded( CCSet *pTouches, CCEvent *pEvent )
 {
+	#ifndef _DEBUG
 	if (!canAddWater())
 		return;
+	#endif
 
 	CCTouch* touch = (CCTouch*)pTouches->anyObject();
 	Drop* drop = hitTest(touch->getLocation());
@@ -148,8 +150,8 @@ bool MainLayer::init()
 	bullets = CCArray::create();
 	bullets->retain();
 
+	bulletsArea = CCRectMake(0, 0, xcells*cellW, ycells*cellH);
 	setTouchEnabled(true);
-	scheduleUpdate();
 	return true;
 }
 
@@ -160,4 +162,9 @@ void MainLayer::startPlay(LevelConfiguration* config)
 	removeAllChildrenWithCleanup(true);
 
 	addDrops(config);
+
+	// avoid call scheduleUpdate many times, which doesn't work
+	unscheduleUpdate();
+	scheduleUpdate();
+
 }
