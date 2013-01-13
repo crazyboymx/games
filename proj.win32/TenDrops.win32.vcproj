@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="TenDrops.win32"
 	ProjectGUID="{59748848-521E-4F8B-84A0-DC187954A6F5}"
+	RootNamespace="TenDrops.win32"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -100,6 +101,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy /Y $(ProjectDir)..\Resources\*.* $(TargetDir)"
 			/>
 		</Configuration>
 		<Configuration
@@ -139,7 +141,8 @@
 				PreprocessorDefinitions="WIN32;_WINDOWS;STRICT;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGSNDEBUG"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="pch.h"
 				WarningLevel="3"
 				DebugInformationFormat="0"
 				DisableSpecificWarnings="4267;4251;4244"
@@ -184,6 +187,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy /Y $(ProjectDir)..\Resources\*.* $(TargetDir)"
 			/>
 		</Configuration>
 	</Configurations>
@@ -247,7 +251,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Classes\GameOverScene.cpp"
+				RelativePath="..\Classes\GameOverLayer.cpp"
 				>
 			</File>
 			<File
@@ -293,6 +297,14 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Classes\pch.h"
@@ -307,6 +319,14 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"

@@ -8,11 +8,11 @@ enum
 	MENU_ITEM_NEXT_LEVEL = 2
 };
 
-bool GameOverScene::init()
+bool GameOverLayer::init()
 {
 	do
 	{
-		CC_BREAK_IF(!CCScene::init());
+		CC_BREAK_IF(!CCLayer::init());
 
 		CCLayerColor* backgroundLayer = CCLayerColor::create(
 			ccc4(255, 255, 255, 128));
@@ -21,13 +21,13 @@ bool GameOverScene::init()
 		CCSize screenSize = CocosUtils::getScreenSize();
 
 		CCMenuItemFont* nextLevel = CCMenuItemFont::create("Next", this,
-			menu_selector(GameOverScene::menuCallback));
+			menu_selector(GameOverLayer::menuCallback));
 		nextLevel->setTag(MENU_ITEM_NEXT_LEVEL);
 		nextLevel->setFontName("Consola");
 		nextLevel->setFontSize(36);
 
 		CCMenuItemFont* replay = CCMenuItemFont::create("Replay", this,
-			menu_selector(GameOverScene::menuCallback));
+			menu_selector(GameOverLayer::menuCallback));
 		replay->setTag(MENU_ITEM_REPLAY);
 		replay->setFontName("Consola");
 		replay->setFontSize(36);
@@ -44,16 +44,16 @@ bool GameOverScene::init()
 	return false;
 }
 
-void GameOverScene::menuCallback(CCObject* o)
+void GameOverLayer::menuCallback(CCObject* o)
 {
 	switch(((CCNode*)o)->getTag())
 	{
 		case MENU_ITEM_REPLAY:
-			CCDirector::sharedDirector()->popScene();
+			removeFromParentAndCleanup(true);
 			GameController::sharedInstance()->replayThisLevel();
 			break;
 		case MENU_ITEM_NEXT_LEVEL:
-			CCDirector::sharedDirector()->popScene();
+			removeFromParentAndCleanup(true);
 			GameController::sharedInstance()->enterNextLevel();
 			break;
 	}

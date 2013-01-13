@@ -11,7 +11,7 @@ using namespace cocos2d;
 class MainLayer;
 class InformationLayer;
 class MainScene;
-class GameOverScene;
+class GameOverLayer;
 class ExitButtonLayer;
 
 class GameController;
@@ -264,11 +264,11 @@ public:
     }
 };
 
-class GameOverScene : public CCScene
+class GameOverLayer : public CCLayer
 {
 public:
     bool init();
-    CREATE_FUNC(GameOverScene);
+    CREATE_FUNC(GameOverLayer);
 	void menuCallback(CCObject* o);
 };
 

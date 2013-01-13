@@ -28,7 +28,7 @@ void GameController::exitGame()
 
 void GameController::gameOver()
 {
-	CCDirector::sharedDirector()->pushScene(GameOverScene::create());
+	mainScene->addChild(GameOverLayer::create(), 1);
 }
 
 /*static*/ GameController* GameController::sharedInstance()
