@@ -15,3 +15,12 @@ for file in sys.argv[1:]:
 """%( file.upper(), file.upper()));
 	f.close();
 
+	f = open(file + '.cpp', "w")
+	f.write("""
+#include "pch.h"
+#include "TenDrops.h"
+""")
+	f.close();
+
+	commands.getoutputstatus("git add %s.h %s.cpp" % (file, file))
+

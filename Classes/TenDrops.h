@@ -7,6 +7,7 @@
 #include "CocosUtils.h"
 
 using namespace cocos2d;
+using namespace CocosDenshion;
 
 class MainScene;
 class MainLayer;
@@ -15,6 +16,7 @@ class GameOverLayer;
 
 class GameController;
 class LevelConfiguration;
+class SoundManager;
 
 enum
 {
@@ -29,5 +31,6 @@ enum
 #include "InformationLayer.h"
 #include "LevelConfiguration.h"
 #include "GameOverLayer.h"
+#include "SoundManager.h"
 
 #endif

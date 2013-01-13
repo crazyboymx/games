@@ -19,8 +19,10 @@ class GameController : public CCObject, public MainLayer::GameListener
         level(0), score(0), leftDrops(0),
         bumpedDropForThisTouch(0)
     {}
-    bool init() { return true; }
+    bool init();
     CREATE_FUNC(GameController);
+
+    CC_SYNTHESIZE_READONLY(SoundManager*, soundManager, SoundManager);
 public:
 
     virtual void onDropBump(Drop* drop);
@@ -35,13 +37,9 @@ public:
 
     void exitGame();
 
-    void gameOver();
+    void levelFailed();
 
-    void gameFailed()
-    {
-        // TODO
-        gameOver();
-    }
+    void levelComplete();
 
     LevelConfiguration* getLevelConfig(int level);
 

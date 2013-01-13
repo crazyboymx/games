@@ -99,7 +99,7 @@ void MainLayer::update( float dt )
 	if (isReadyToOver())
 	{
 		unscheduleUpdate();
-		GameController::sharedInstance()->gameOver();
+		GameController::sharedInstance()->levelComplete();
 		return;
 	}
 	if (!originalCanAddWater && canAddWater())
@@ -129,7 +129,11 @@ void MainLayer::ccTouchesEnded( CCSet *pTouches, CCEvent *pEvent )
 {
 	#ifndef _DEBUG
 	if (!canAddWater())
+	{
+		if (gameListener)
+			gameListener->onTouchDrop(NULL); // touch disabled
 		return;
+	}
 	#endif
 
 	CCTouch* touch = (CCTouch*)pTouches->anyObject();
