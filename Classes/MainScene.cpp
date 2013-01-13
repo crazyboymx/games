@@ -2,6 +2,14 @@
 #include "pch.h"
 #include "TenDrops.h"
 
+class ExitButtonLayer: public CCLayer
+{
+public:
+    virtual bool init();
+    void menuCloseCallback(CCObject* pSender);
+    CREATE_FUNC(ExitButtonLayer);
+};
+
 bool MainScene::init()
 {
 	CCScene::init();
