@@ -47,6 +47,8 @@ void MainLayer::conflictDetect()
 			if (CocosUtils::getSpriteRect(bullet).intersectsRect(drop->getRect()))
 			{
 				bulletNeedRemove = true;
+				if (gameListener)
+					gameListener->beforeDropHitByBullet(drop);
 				drop->addWater();
 				break;
 			}
@@ -56,10 +58,13 @@ void MainLayer::conflictDetect()
 	}
 }
 
-void MainLayer::onDropBump( Drop* drop )
+void MainLayer::onDropChanged( Drop* drop )
 {
 	if (gameListener)
-		gameListener->onDropBump(drop);
+		gameListener->onDropChanged(drop);
+	if (drop->getWater() <= 4)
+		return;
+
 	const CCPoint moves[4] = {CCPointMake(0, cellH), CCPointMake(0, -cellH),
 		CCPointMake(-cellW, 0), CCPointMake(cellW,0)};
 	forn(i, 0, 4)

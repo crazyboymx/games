@@ -34,13 +34,13 @@ void GameController::exitGame()
 
 void GameController::levelComplete()
 {
-	soundManager->playEffect("level_complete.ogg");
+	soundManager->playEffect("level_complete");
 	mainScene->addChild(GameOverLayer::create(), 1);
 }
 
 void GameController::levelFailed()
 {
-	soundManager->playEffect("level_failed.mp3");
+	soundManager->playEffect("level_failed");
 	mainScene->addChild(GameOverLayer::create(), 1);
 }
 
@@ -89,14 +89,16 @@ void GameController::setLeftDrops( int drops )
 	mainScene->getInfoLayer()->setLeftDrops(drops);
 }
 
-void GameController::onDropBump( Drop* drop )
+void GameController::onDropChanged( Drop* drop )
 {
-	soundManager->playEffect("drop_break.ogg");
+	if (drop->getWater() <= 4)
+		return;
+	soundManager->playEffect("drop_break");
 	bumpedDropForThisTouch ++;
 	if (bumpedDropForThisTouch >= 3)
 	{
 		bumpedDropForThisTouch = 0;
-		soundManager->playEffect("add_drops.ogg");
+		soundManager->playEffect("add_drops");
 		addLeftDrops(1);
 	}
 }
@@ -105,10 +107,16 @@ void GameController::onTouchDrop( Drop* drop )
 {
 	if (drop == NULL)
 	{
-		soundManager->playEffect("no_touch.ogg");
+		soundManager->playEffect("no_touch");
 		return;
 	}
-	soundManager->playEffect("inwater.ogg");
+	soundManager->playEffect("inwater");
 	addLeftDrops(-1);
 	bumpedDropForThisTouch = 0;
+}
+
+void GameController::beforeDropHitByBullet( Drop* drop )
+{
+	if (drop->getWater() < 4) // otherwise it will bomp
+		soundManager->playEffect("drop_bigger");
 }

@@ -25,9 +25,11 @@ class GameController : public CCObject, public MainLayer::GameListener
     CC_SYNTHESIZE_READONLY(SoundManager*, soundManager, SoundManager);
 public:
 
-    virtual void onDropBump(Drop* drop);
+    virtual void onDropChanged(Drop* drop);
 
     virtual void onTouchDrop(Drop* drop);
+
+    virtual void beforeDropHitByBullet(Drop* drop);
 
     virtual void onBumpChainFinished(){}
 

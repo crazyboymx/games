@@ -21,7 +21,8 @@ public:
     {
 	public:
         virtual void onTouchDrop(Drop* drop) = 0;
-        virtual void onDropBump(Drop* drop) = 0;
+        virtual void beforeDropHitByBullet(Drop* drop) = 0;
+        virtual void onDropChanged(Drop* drop) = 0;
         virtual void onBumpChainFinished() = 0;
     };
     CC_SYNTHESIZE(GameListener*, gameListener, GameListener);
@@ -46,7 +47,7 @@ public:
 
     void removeSprite(CCSprite* sprite);
 
-    void onDropBump(Drop* drop);
+    void onDropChanged(Drop* drop);
 
     CREATE_FUNC(MainLayer);
 

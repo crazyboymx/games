@@ -8,10 +8,10 @@ public:
     class Listener
     {
 	public:
-        virtual void onDropBump(Drop*) = 0;
+        virtual void onDropChanged(Drop*) = 0;
     };
 private:
-    int water;
+    CC_SYNTHESIZE_READONLY(int, water, Water);
     Listener* listener;
 
     void updateImage();

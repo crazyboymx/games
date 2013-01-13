@@ -29,9 +29,8 @@ static CCTexture2D* getTextureByWater( int water )
 void Drop::addWater()
 {
 	water ++;
-	if (water > 4)
-		listener->onDropBump(this);
-	else
+	listener->onDropChanged(this);
+	if (water <= 4)
 		updateImage();
 }
 
