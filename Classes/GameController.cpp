@@ -4,10 +4,39 @@
 
 /*static*/ GameController* GameController::instance = NULL;
 
+static void addSpritesToCache()
+{
+	#ifdef HAS_TEXTURE_PACKED
+		CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pack.plist", "pack.png");
+	#else
+		const char* names[] = {
+			"drop1.png",
+			"drop2.png",
+			"drop3.png",
+			"drop4.png",
+			"bullet_ver.png",
+			"bullet_hor.png",
+			"bg.png",
+			"info_bg.png",
+			"CloseNormal.png",
+			"CloseSelected.png"
+		};
+		forn(i, 0, (sizeof(names)/sizeof(names[0])))
+		{
+			const char* name = names[i];
+			CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addImage(name);
+			CCRect rect = CCRectZero;
+			rect.size = tex->getContentSize();
+			CCSpriteFrame* frame = CCSpriteFrame::createWithTexture(tex, rect);
+			CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFrame(frame, name);
+		}
+	#endif
+}
+
 bool GameController::init()
 {
 	soundManager = SoundManager::create();
-	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pack.plist", "pack.png");
+	addSpritesToCache();
 	return true;
 }
 

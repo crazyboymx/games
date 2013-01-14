@@ -9,7 +9,7 @@ class MainLayer : public CCLayer, public Drop::Listener
     int ncells, xcells, ycells;
     int cellW, cellH;
     CCArray *drops, *bullets;
-    CCSpriteBatchNode* spritesBatch;
+    CCNode* spritesBatch;
 
     CCRect bulletsArea;
     MainLayer(): ncells(36), xcells(6), ycells(6),

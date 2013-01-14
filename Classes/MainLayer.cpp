@@ -95,7 +95,9 @@ void MainLayer::addSprite( CCSprite* sprite )
 	bool isDrop = sprite->getTag() == SPRITE_DROP;
 	CCArray* array = isDrop ? drops : bullets;
 	array->addObject(sprite);
+#ifdef HAS_TEXTURE_PACKED
 	CC_ASSERT(spritesBatch->getTexture() == sprite->getTexture());
+#endif
 	spritesBatch->addChild(sprite);
 }
 
@@ -161,9 +163,13 @@ bool MainLayer::init()
 	bullets = CCArray::create();
 	bullets->retain();
 
+#ifdef HAS_TEXTURE_PACKED
 	spritesBatch = CCSpriteBatchNode::createWithTexture(CCTextureCache::sharedTextureCache()->
 		textureForKey("pack.png"));
 	addChild(spritesBatch);
+#else
+	spritesBatch = this;
+#endif
 	spritesBatch->retain();
 
 	bulletsArea = CCRectMake(0, 0, xcells*cellW, ycells*cellH);
