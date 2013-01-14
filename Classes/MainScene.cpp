@@ -6,7 +6,7 @@ class ExitButtonLayer: public CCLayer
 {
 public:
     virtual bool init();
-    void menuCloseCallback(CCObject* pSender);
+    void menuCallback(CCObject* pSender);
     CREATE_FUNC(ExitButtonLayer);
 };
 
@@ -61,6 +61,7 @@ void MainScene::startPlay(LevelConfiguration* config)
 enum
 {
 	ITEM_OPEN_MENU = 1,
+	ITEM_TOGGLE_SOUND,
 	ITEM_EXIT_GAME
 };
 
@@ -75,7 +76,7 @@ bool ExitButtonLayer::init()
 		CCMenuItemImage *pCloseItem = CCMenuItemImage::create();
 		CC_BREAK_IF(! pCloseItem);
 		pCloseItem->setTag(ITEM_EXIT_GAME);
-		pCloseItem->setTarget(this, menu_selector(ExitButtonLayer::menuCloseCallback));
+		pCloseItem->setTarget(this, menu_selector(ExitButtonLayer::menuCallback));
 		pCloseItem->setNormalSpriteFrame(CocosUtils::getSpriteFrameByName("CloseNormal.png"));
 		pCloseItem->setSelectedSpriteFrame(CocosUtils::getSpriteFrameByName("CloseSelected.png"));
 
@@ -83,15 +84,25 @@ bool ExitButtonLayer::init()
 		// Place the menu item bottom-right conner.
 		pCloseItem->setPosition(ccp(size.width - 20, 20));
 
+		// Add volume
+		CCMenuItemImage *pVolumeItem = CCMenuItemImage::create();
+		CC_BREAK_IF(! pVolumeItem);
+		pVolumeItem->setTag(ITEM_TOGGLE_SOUND);
+		pVolumeItem->setTarget(this, menu_selector(ExitButtonLayer::menuCallback));
+		pVolumeItem->setNormalSpriteFrame(CocosUtils::getSpriteFrameByName(
+			GameController::sharedInstance()->getSoundManager()->getEffectSoundEnabled() ?
+				"open_volume.png" : "close_volume.png"));
+		pVolumeItem->setPosition(ccp(size.width - 100, 20));
+
 		CCMenuItemFont* pOpenMenuItem = CCMenuItemFont::create("Menu", this,
-			menu_selector(ExitButtonLayer::menuCloseCallback));
+			menu_selector(ExitButtonLayer::menuCallback));
 		CC_BREAK_IF(!pOpenMenuItem);
 		pOpenMenuItem->setTag(ITEM_OPEN_MENU);
 		pOpenMenuItem->setFontSize(24);
-		pOpenMenuItem->setPosition(ccp(size.width - 100, 20));
+		pOpenMenuItem->setPosition(ccp(size.width - 100, 100));
 
 		// Create a menu with the "close" menu item, it's an auto release object.
-		CCMenu* pMenu = CCMenu::create(pCloseItem, pOpenMenuItem, NULL);
+		CCMenu* pMenu = CCMenu::create(pCloseItem, pVolumeItem, pOpenMenuItem, NULL);
 		pMenu->setPosition(CCPointZero);
 		CC_BREAK_IF(! pMenu);
 
@@ -102,13 +113,23 @@ bool ExitButtonLayer::init()
 	return ret;
 }
 
-void ExitButtonLayer::menuCloseCallback( CCObject* pSender )
+void ExitButtonLayer::menuCallback( CCObject* pSender )
 {
-	switch(((CCNode*)pSender)->getTag())
+	CCNode* item = ((CCNode*)pSender);
+	switch(item->getTag())
 	{
 		case ITEM_OPEN_MENU:
 			GameController::sharedInstance()->openMenu();
 			break;
+		case ITEM_TOGGLE_SOUND:
+			{
+				SoundManager* sm = GameController::sharedInstance()->getSoundManager();
+				sm->setEffectSoundEnabled(!sm->getEffectSoundEnabled());
+				((CCMenuItemImage*)item)->setNormalSpriteFrame(CocosUtils::getSpriteFrameByName(
+					GameController::sharedInstance()->getSoundManager()->getEffectSoundEnabled() ?
+					"open_volume.png" : "close_volume.png"));
+				break;
+			}
 		case ITEM_EXIT_GAME:
 			GameController::sharedInstance()->exitGame();
 			break;

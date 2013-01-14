@@ -14,6 +14,7 @@ static void addSpritesToCache()
 bool GameController::init()
 {
 	soundManager = SoundManager::create();
+	soundManager->retain();
 	addSpritesToCache();
 	return true;
 }
@@ -133,4 +134,10 @@ void GameController::beforeDropHitByBullet( Drop* drop )
 {
 	if (drop->getWater() < 4) // otherwise it will bomp
 		soundManager->playEffect("drop_bigger");
+}
+
+GameController::~GameController()
+{
+	CC_SAFE_RELEASE_NULL(soundManager);
+	mainScene = NULL;
 }

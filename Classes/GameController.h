@@ -24,6 +24,7 @@ class GameController : public CCObject, public MainLayer::GameListener
 
     CC_SYNTHESIZE_READONLY(SoundManager*, soundManager, SoundManager);
 public:
+    ~GameController();
 
     virtual void onDropChanged(Drop* drop);
 
