@@ -25,5 +25,13 @@ bool CocosUtils::containsRect(const CCRect& r1, const CCRect& r2)
 
 CCSpriteFrame* CocosUtils::getSpriteFrameByName(const char* name)
 {
+#ifdef HAS_TEXTURE_PACKED
 	return CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name);
+#else
+	CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addImage(name);
+	CCRect rect = CCRectZero;
+	rect.size = tex->getContentSize();
+	CCSpriteFrame* frame = CCSpriteFrame::createWithTexture(tex, rect);
+	return frame;
+#endif
 }

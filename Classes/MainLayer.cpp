@@ -70,8 +70,8 @@ void MainLayer::onDropChanged( Drop* drop )
 		CCPointMake(-cellW, 0), CCPointMake(cellW,0)};
 	forn(i, 0, 4)
 	{
-		CCSprite* bullet = CCSprite::createWithSpriteFrameName(fabs(moves[i].x) < 0.1
-			? "bullet_ver.png" : "bullet_hor.png");
+		CCSprite* bullet = CCSprite::createWithSpriteFrame(CocosUtils::getSpriteFrameByName(fabs(moves[i].x) < 0.1
+			? "bullet_ver.png" : "bullet_hor.png"));
 		bullet->setPosition(drop->getPosition());
 		bullet->setTag(SPRITE_BULLET);
 		CCAction* action = CCRepeatForever::create(CCMoveBy::create(

@@ -10,7 +10,7 @@ bool InformationLayer::init()
 
 		CCSize screenSize = CocosUtils::getScreenSize();
 
-		CCSprite* background = CCSprite::createWithSpriteFrameName("info_bg.png");
+		CCSprite* background = CCSprite::createWithSpriteFrame(CocosUtils::getSpriteFrameByName("info_bg.png"));
 		addChild(background);
 
 		int h = background->getTextureRect().size.height;

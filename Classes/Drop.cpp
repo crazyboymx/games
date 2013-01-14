@@ -35,6 +35,6 @@ void Drop::addWater()
 
 void Drop::updateImage()
 {
-	setDisplayFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(
+	setDisplayFrame(CocosUtils::getSpriteFrameByName(
 		getSpriteFrameNameByWater(water)));
 }
