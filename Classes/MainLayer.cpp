@@ -6,6 +6,7 @@ MainLayer::~MainLayer()
 {
 	CC_SAFE_RELEASE_NULL(drops);
 	CC_SAFE_RELEASE_NULL(bullets);
+	CC_SAFE_RELEASE_NULL(spritesBatch);
 }
 
 void MainLayer::addDrops(LevelConfiguration* config)
@@ -86,7 +87,7 @@ void MainLayer::removeSprite( CCSprite* sprite )
 	bool isDrop = sprite->getTag() == SPRITE_DROP;
 	CCArray* array = isDrop ? drops : bullets;
 	array->removeObject(sprite);
-	removeChild(sprite, true);
+	spritesBatch->removeChild(sprite, true);
 }
 
 void MainLayer::addSprite( CCSprite* sprite )
@@ -94,7 +95,8 @@ void MainLayer::addSprite( CCSprite* sprite )
 	bool isDrop = sprite->getTag() == SPRITE_DROP;
 	CCArray* array = isDrop ? drops : bullets;
 	array->addObject(sprite);
-	addChild(sprite);
+	CC_ASSERT(spritesBatch->getTexture() == sprite->getTexture());
+	spritesBatch->addChild(sprite);
 }
 
 void MainLayer::update( float dt )
@@ -159,16 +161,28 @@ bool MainLayer::init()
 	bullets = CCArray::create();
 	bullets->retain();
 
+	spritesBatch = CCSpriteBatchNode::createWithTexture(CCTextureCache::sharedTextureCache()->
+		textureForKey("pack.png"));
+	addChild(spritesBatch);
+	spritesBatch->retain();
+
 	bulletsArea = CCRectMake(0, 0, xcells*cellW, ycells*cellH);
 	setTouchEnabled(true);
 	return true;
 }
 
+void MainLayer::removeAllDropsAndBullets()
+{
+	CCObject* o;
+	CCARRAY_FOREACH_REVERSE(bullets, o)
+		removeSprite((CCSprite*)o);
+	CCARRAY_FOREACH_REVERSE(drops, o)
+		removeSprite((CCSprite*)o);
+}
+
 void MainLayer::startPlay(LevelConfiguration* config)
 {
-	drops->removeAllObjects();
-	bullets->removeAllObjects();
-	removeAllChildrenWithCleanup(true);
+	removeAllDropsAndBullets();
 
 	addDrops(config);
 

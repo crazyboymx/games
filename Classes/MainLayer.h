@@ -9,6 +9,7 @@ class MainLayer : public CCLayer, public Drop::Listener
     int ncells, xcells, ycells;
     int cellW, cellH;
     CCArray *drops, *bullets;
+    CCSpriteBatchNode* spritesBatch;
 
     CCRect bulletsArea;
     MainLayer(): ncells(36), xcells(6), ycells(6),
@@ -48,6 +49,8 @@ public:
     void removeSprite(CCSprite* sprite);
 
     void onDropChanged(Drop* drop);
+
+    void removeAllDropsAndBullets();
 
     CREATE_FUNC(MainLayer);
 
