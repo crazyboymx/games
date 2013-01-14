@@ -52,6 +52,12 @@ void MainScene::startPlay(LevelConfiguration* config)
 	mainLayer->startPlay(config);
 }
 
+enum
+{
+	ITEM_OPEN_MENU = 1,
+	ITEM_EXIT_GAME
+};
+
 bool ExitButtonLayer::init()
 {
 	bool ret = false;
@@ -62,15 +68,24 @@ bool ExitButtonLayer::init()
 		// Create a "close" menu item with close icon, it's an auto release object.
 		CCMenuItemImage *pCloseItem = CCMenuItemImage::create();
 		CC_BREAK_IF(! pCloseItem);
+		pCloseItem->setTag(ITEM_EXIT_GAME);
 		pCloseItem->setTarget(this, menu_selector(ExitButtonLayer::menuCloseCallback));
 		pCloseItem->setNormalSpriteFrame(CocosUtils::getSpriteFrameByName("CloseNormal.png"));
 		pCloseItem->setSelectedSpriteFrame(CocosUtils::getSpriteFrameByName("CloseSelected.png"));
 
+		CCSize size = CocosUtils::getScreenSize();
 		// Place the menu item bottom-right conner.
-		pCloseItem->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20));
+		pCloseItem->setPosition(ccp(size.width - 20, 20));
+
+		CCMenuItemFont* pOpenMenuItem = CCMenuItemFont::create("Menu", this,
+			menu_selector(ExitButtonLayer::menuCloseCallback));
+		CC_BREAK_IF(!pOpenMenuItem);
+		pOpenMenuItem->setTag(ITEM_OPEN_MENU);
+		pOpenMenuItem->setFontSize(24);
+		pOpenMenuItem->setPosition(ccp(size.width - 100, 20));
 
 		// Create a menu with the "close" menu item, it's an auto release object.
-		CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
+		CCMenu* pMenu = CCMenu::create(pCloseItem, pOpenMenuItem, NULL);
 		pMenu->setPosition(CCPointZero);
 		CC_BREAK_IF(! pMenu);
 
@@ -83,6 +98,13 @@ bool ExitButtonLayer::init()
 
 void ExitButtonLayer::menuCloseCallback( CCObject* pSender )
 {
-	// "close" menu item clicked
-	GameController::sharedInstance()->exitGame();
+	switch(((CCNode*)pSender)->getTag())
+	{
+		case ITEM_OPEN_MENU:
+			GameController::sharedInstance()->openMenu();
+			break;
+		case ITEM_EXIT_GAME:
+			GameController::sharedInstance()->exitGame();
+			break;
+	}
 }

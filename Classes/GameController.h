@@ -39,6 +39,8 @@ public:
 
     void exitGame();
 
+	void openMenu();
+
     void levelFailed();
 
     void levelComplete();

@@ -45,6 +45,12 @@ void GameController::levelFailed()
 	mainScene->addChild(GameOverLayer::create(), 1);
 }
 
+void GameController::openMenu()
+{
+	// TODO
+	mainScene->addChild(GameOverLayer::create(), 1);
+}
+
 /*static*/ GameController* GameController::sharedInstance()
 {
 	if (!instance)
