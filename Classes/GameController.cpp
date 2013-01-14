@@ -7,6 +7,7 @@
 bool GameController::init()
 {
 	soundManager = SoundManager::create();
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pack.plist", "pack.png");
 	return true;
 }
 

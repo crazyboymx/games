@@ -19,11 +19,10 @@ bool Drop::init(int water, Listener* listener)
 	return false;
 }
 
-static CCTexture2D* getTextureByWater( int water )
+static const char* getSpriteFrameNameByWater( int water )
 {
-	return CCTextureCache::sharedTextureCache()
-		->addImage(CCString::createWithFormat("drop%d.png", water)
-		->getCString());
+	return (CCString::createWithFormat("drop%d.png", water)
+			->getCString());
 }
 
 void Drop::addWater()
@@ -36,10 +35,6 @@ void Drop::addWater()
 
 void Drop::updateImage()
 {
-	CCTexture2D* tex = getTextureByWater(water);
-	setTexture(tex);
-
-	CCRect rect = CCRectZero;
-    rect.size = tex->getContentSize();
-    this->setTextureRect(rect);
+	setDisplayFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(
+		getSpriteFrameNameByWater(water)));
 }

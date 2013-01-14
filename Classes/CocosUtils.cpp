@@ -22,3 +22,8 @@ bool CocosUtils::containsRect(const CCRect& r1, const CCRect& r2)
 	return r1.containsPoint(r2.origin) && r1.containsPoint(ccp(
 		r2.origin.x + r2.size.width - 1, r2.origin.y + r2.size.height - 1));
 }
+
+CCSpriteFrame* CocosUtils::getSpriteFrameByName(const char* name)
+{
+	return CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name);
+}

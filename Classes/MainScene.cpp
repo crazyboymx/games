@@ -60,12 +60,11 @@ bool ExitButtonLayer::init()
 		CC_BREAK_IF(!CCLayer::init());
 
 		// Create a "close" menu item with close icon, it's an auto release object.
-		CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-			"CloseNormal.png",
-			"CloseSelected.png",
-			this,
-			menu_selector(ExitButtonLayer::menuCloseCallback));
+		CCMenuItemImage *pCloseItem = CCMenuItemImage::create();
 		CC_BREAK_IF(! pCloseItem);
+		pCloseItem->setTarget(this, menu_selector(ExitButtonLayer::menuCloseCallback));
+		pCloseItem->setNormalSpriteFrame(CocosUtils::getSpriteFrameByName("CloseNormal.png"));
+		pCloseItem->setSelectedSpriteFrame(CocosUtils::getSpriteFrameByName("CloseSelected.png"));
 
 		// Place the menu item bottom-right conner.
 		pCloseItem->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20));
