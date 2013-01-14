@@ -14,6 +14,7 @@ static void addSpritesToCache()
 			"drop2.png",
 			"drop3.png",
 			"drop4.png",
+			"drop.png",
 			"bullet_ver.png",
 			"bullet_hor.png",
 			"bg.png",

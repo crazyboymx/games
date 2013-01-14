@@ -13,9 +13,15 @@ public:
 bool MainScene::init()
 {
 	CCScene::init();
-	CCLayerColor* backgroundLayer = CCLayerColor::create(
-		ccc4(172, 177, 181, 255));
+	// CCLayerColor* backgroundLayer = CCLayerColor::create(
+	// 	ccc4(172, 177, 181, 255));
+	CCLayer* backgroundLayer = CCLayer::create();
 	addChild(backgroundLayer);
+	CCSprite* backgroundImage = CCSprite::createWithSpriteFrame(CocosUtils::getSpriteFrameByName(
+		"bg.png"));
+	backgroundImage->setPosition(ccp(0, 0));
+	backgroundImage->setAnchorPoint(ccp(0, 0));
+	backgroundLayer->addChild(backgroundImage);
 
 	CCSize size = CocosUtils::getScreenSize();
 	// put InformationLayer in right top

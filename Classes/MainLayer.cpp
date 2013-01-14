@@ -172,6 +172,15 @@ bool MainLayer::init()
 #endif
 	spritesBatch->retain();
 
+	// Add drop background
+	forn(i, 0, ncells)
+	{
+		CCSprite* dropBg = CCSprite::createWithSpriteFrame(CocosUtils::getSpriteFrameByName("drop.png"));
+		dropBg->setPosition(ccp(i % xcells * cellW + cellW/2,
+			i / xcells * cellH + cellH/2));
+		spritesBatch->addChild(dropBg);
+	}
+
 	bulletsArea = CCRectMake(0, 0, xcells*cellW, ycells*cellH);
 	setTouchEnabled(true);
 	return true;
