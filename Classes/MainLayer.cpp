@@ -124,10 +124,8 @@ void MainLayer::bumpChainFinished()
 
 Drop* MainLayer::hitTest( const CCPoint& p )
 {
-	CCObject* o;
-	CCARRAY_FOREACH(drops, o)
+	forarray(Drop*, drop, drops)
 	{
-		Drop* drop = (Drop*)o;
 		if (drop->getRect().containsPoint(p))
 			return drop;
 	}

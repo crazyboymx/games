@@ -5,9 +5,25 @@
 #include "cocoa/CCGeometry.h"
 using namespace cocos2d;
 
-#define forset(Type, o, set) \
-	Type o; \
-	for(CCSetIterator __it = (set)->begin(); (__it != (set)->end() && ((o) = (Type)(*__it), true)); ++__it)
+#define forset(__Type__, __o__, __set__) \
+	__Type__ __o__; \
+	for(CCSetIterator __it__ = (__set__)->begin(), __end__ = (__set__)->end(); \
+		(__it__ != __end__ && ((__o__) = (__Type__)(*__it__), true)); \
+		++__it__)
+
+#define forarray(__Type__, __object__, __array__) \
+    __Type__ __object__; \
+	if ((__array__) && (__array__)->data->num > 0)                                                            \
+	for(CCObject** arr = (__array__)->data->arr, **end = (__array__)->data->arr + (__array__)->data->num-1;   \
+		arr <= end && (((__object__) = (__Type__)*arr), true/* different with CCArray.h */);              \
+		arr++)
+
+#define forarray_reverse(__Type__, __object__, __array__) \
+    __Type__ __object__; \
+	if ((__array__) && (__array__)->data->num > 0)                                                          \
+	for(CCObject** arr = (__array__)->data->arr + (__array__)->data->num-1, **end = (__array__)->data->arr; \
+		arr >= end && (((__object__) = (__Type__)*arr), true/* different with CCArray.h */);            \
+		arr--)
 
 class CocosUtils
 {
