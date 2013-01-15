@@ -134,6 +134,18 @@ Drop* MainLayer::hitTest( const CCPoint& p )
 	return NULL;
 }
 
+void MainLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
+{
+	forset(CCTouch*, touch, pTouches)
+	{
+		Drop* drop = hitTest(touch->getLocation());
+		if (drop)
+		{
+			drop->runWave();
+		}
+	}
+}
+
 void MainLayer::ccTouchesEnded( CCSet *pTouches, CCEvent *pEvent )
 {
 	#ifndef _DEBUG

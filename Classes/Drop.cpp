@@ -27,6 +27,7 @@ static const char* getSpriteFrameNameByWater( int water )
 
 void Drop::addWater()
 {
+	stopWave();
 	water ++;
 	listener->onDropChanged(this);
 	if (water <= 4)
@@ -37,4 +38,25 @@ void Drop::updateImage()
 {
 	setDisplayFrame(CocosUtils::getSpriteFrameByName(
 		getSpriteFrameNameByWater(water)));
+}
+
+void Drop::stopWave()
+{
+	stopAllActions();
+	setScale(1);
+}
+
+void Drop::runWave()
+{
+	stopWave();
+	CCScaleBy* scale;
+	CCAction* action = CCSequence::create(
+		scale = CCScaleBy::create(0.2f, 1.3f),
+		scale->reverse(),
+		scale = CCScaleBy::create(0.2f, 1.2f),
+		scale->reverse(),
+		scale = CCScaleBy::create(0.2f, 1.1f),
+		scale->reverse(),
+		NULL);
+	runAction(action);
 }

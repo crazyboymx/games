@@ -5,6 +5,10 @@
 #include "cocoa/CCGeometry.h"
 using namespace cocos2d;
 
+#define forset(Type, o, set) \
+	Type o; \
+	for(CCSetIterator __it = (set)->begin(); (__it != (set)->end() && ((o) = (Type)(*__it), true)); ++__it)
+
 class CocosUtils
 {
 public:

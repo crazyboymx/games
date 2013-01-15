@@ -24,6 +24,9 @@ public:
     CCRect getRect() { return CocosUtils::getSpriteRect(this); }
 
     void addWater();
+
+    void runWave();
+    void stopWave();
 };
 
 #endif

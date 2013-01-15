@@ -37,6 +37,7 @@ public:
 
     // override
     virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+    virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
 
     Drop* hitTest(const CCPoint& p);
 
