@@ -139,7 +139,7 @@ void MainLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 		Drop* drop = hitTest(touch->getLocation());
 		if (drop)
 		{
-			drop->runWave();
+			drop->startWave();
 		}
 	}
 }

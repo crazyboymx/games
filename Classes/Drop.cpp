@@ -2,6 +2,11 @@
 #include "pch.h"
 #include "TenDrops.h"
 
+Drop::~Drop()
+{
+	CC_SAFE_RELEASE_NULL(waveAction);
+}
+
 bool Drop::init(int water, Listener* listener)
 {
 	do
@@ -42,21 +47,26 @@ void Drop::updateImage()
 
 void Drop::stopWave()
 {
-	stopAllActions();
+	if (waveAction)
+		stopAction(waveAction);
 	setScale(1);
 }
 
-void Drop::runWave()
+void Drop::startWave()
 {
 	stopWave();
-	CCScaleBy* scale;
-	CCAction* action = CCSequence::create(
-		scale = CCScaleBy::create(0.2f, 1.3f),
-		scale->reverse(),
-		scale = CCScaleBy::create(0.2f, 1.2f),
-		scale->reverse(),
-		scale = CCScaleBy::create(0.2f, 1.1f),
-		scale->reverse(),
-		NULL);
-	runAction(action);
+	if (!waveAction)
+	{
+		CCScaleBy* scale;
+		waveAction = CCSequence::create(
+			scale = CCScaleBy::create(0.2f, 1.3f),
+			scale->reverse(),
+			scale = CCScaleBy::create(0.2f, 1.2f),
+			scale->reverse(),
+			scale = CCScaleBy::create(0.2f, 1.1f),
+			scale->reverse(),
+			NULL);
+		waveAction->retain();
+	}
+	runAction(waveAction);
 }
