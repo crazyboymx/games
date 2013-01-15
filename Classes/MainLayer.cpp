@@ -18,6 +18,7 @@ void MainLayer::addDrops(LevelConfiguration* config)
 			continue;
 		Drop *drop = new Drop();
 		drop->init(waters[i], this);
+		drop->autorelease();
 		drop->setPosition(ccp(i % xcells * cellW + cellW/2,
 			i / xcells * cellH + cellH/2));
 		addSprite(drop);

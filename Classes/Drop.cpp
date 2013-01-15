@@ -32,11 +32,14 @@ static const char* getSpriteFrameNameByWater( int water )
 
 void Drop::addWater()
 {
+	// this instance may be released in onDropChanged() when it bumped
+	retain();
 	stopWave();
 	water ++;
 	listener->onDropChanged(this);
 	if (water <= 4)
 		updateImage();
+	release();
 }
 
 void Drop::updateImage()
