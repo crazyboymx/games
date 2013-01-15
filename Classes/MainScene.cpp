@@ -2,12 +2,12 @@
 #include "pch.h"
 #include "TenDrops.h"
 
-class ExitButtonLayer: public CCLayer
+class MenuLayer: public CCLayer
 {
 public:
     virtual bool init();
     void menuCallback(CCObject* pSender);
-    CREATE_FUNC(ExitButtonLayer);
+    CREATE_FUNC(MenuLayer);
 };
 
 bool MainScene::init()
@@ -32,7 +32,7 @@ bool MainScene::init()
 	infoLayer->setPosition(size.width - s.width/2, size.height - s.height/2);
 	addChild(infoLayer);
 
-	ExitButtonLayer* exitButtonLayer = ExitButtonLayer::create();
+	MenuLayer* exitButtonLayer = MenuLayer::create();
 	addChild(exitButtonLayer);
 
 	MainLayer* mainLayer = MainLayer::create();
@@ -65,7 +65,7 @@ enum
 	ITEM_EXIT_GAME
 };
 
-bool ExitButtonLayer::init()
+bool MenuLayer::init()
 {
 	bool ret = false;
 	do
@@ -76,7 +76,7 @@ bool ExitButtonLayer::init()
 		CCMenuItemImage *pCloseItem = CCMenuItemImage::create();
 		CC_BREAK_IF(! pCloseItem);
 		pCloseItem->setTag(ITEM_EXIT_GAME);
-		pCloseItem->setTarget(this, menu_selector(ExitButtonLayer::menuCallback));
+		pCloseItem->setTarget(this, menu_selector(MenuLayer::menuCallback));
 		pCloseItem->setNormalSpriteFrame(CocosUtils::getSpriteFrameByName("CloseNormal.png"));
 		pCloseItem->setSelectedSpriteFrame(CocosUtils::getSpriteFrameByName("CloseSelected.png"));
 
@@ -88,14 +88,14 @@ bool ExitButtonLayer::init()
 		CCMenuItemImage *pVolumeItem = CCMenuItemImage::create();
 		CC_BREAK_IF(! pVolumeItem);
 		pVolumeItem->setTag(ITEM_TOGGLE_SOUND);
-		pVolumeItem->setTarget(this, menu_selector(ExitButtonLayer::menuCallback));
+		pVolumeItem->setTarget(this, menu_selector(MenuLayer::menuCallback));
 		pVolumeItem->setNormalSpriteFrame(CocosUtils::getSpriteFrameByName(
 			GameController::sharedInstance()->getSoundManager()->getEffectSoundEnabled() ?
 				"open_volume.png" : "close_volume.png"));
 		pVolumeItem->setPosition(ccp(size.width - 100, 20));
 
 		CCMenuItemFont* pOpenMenuItem = CCMenuItemFont::create("Menu", this,
-			menu_selector(ExitButtonLayer::menuCallback));
+			menu_selector(MenuLayer::menuCallback));
 		CC_BREAK_IF(!pOpenMenuItem);
 		pOpenMenuItem->setTag(ITEM_OPEN_MENU);
 		pOpenMenuItem->setFontSize(24);
@@ -113,7 +113,7 @@ bool ExitButtonLayer::init()
 	return ret;
 }
 
-void ExitButtonLayer::menuCallback( CCObject* pSender )
+void MenuLayer::menuCallback( CCObject* pSender )
 {
 	CCNode* item = ((CCNode*)pSender);
 	switch(item->getTag())
