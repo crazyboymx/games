@@ -259,22 +259,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Classes\Pch.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Classes\pch.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Classes\TenDrops.cpp"
 				>
 			</File>
@@ -346,6 +330,22 @@
 			</File>
 			<File
 				RelativePath="..\..\shared\utils\CocosUtils.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\utils\Pch.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\shared\utils\pch.h"
 				>
 			</File>
 			<File
