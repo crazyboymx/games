@@ -1,6 +1,8 @@
 
 #include "pch.h"
-#include "TenDrops.h"
+using namespace cocos2d;
+using namespace CocosDenshion;
+#include "SoundManager.h"
 
 void SoundManager::playEffect( const char* soundName )
 {

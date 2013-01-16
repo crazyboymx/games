@@ -28,8 +28,9 @@ using namespace cocos2d;
 class CocosUtils
 {
 public:
-	static CCRect getSpriteRect(CCSprite* sprite);
+	static CCRect getSpriteRect(CCNode* sprite);
 	static CCSize getScreenSize();
+	static CCRect getScreenRect();
 
 	static CCString* toString(int value)
 	{
@@ -38,6 +39,8 @@ public:
 	static bool containsRect(const CCRect& r1, const CCRect& r2);
 
 	static CCSpriteFrame* getSpriteFrameByName(const char* name);
+	static CCSprite* getSprite(const char* name);
+	static bool totallyOutOfScreen(CCNode* node);
 };
 
 #endif

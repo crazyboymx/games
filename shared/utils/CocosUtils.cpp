@@ -3,12 +3,12 @@
 
 #include "CocosUtils.h"
 
-cocos2d::CCRect CocosUtils::getSpriteRect( CCSprite* sprite )
+cocos2d::CCRect CocosUtils::getSpriteRect( CCNode* sprite )
 {
 	CCPoint p = sprite->getPosition();
-	CCRect r = sprite->getTextureRect();
-	int w = r.size.width;
-	int h = r.size.height;
+	CCSize size = sprite->getContentSize();
+	int w = size.width;
+	int h = size.height;
 	return CCRectMake(p.x - w/2, p.y - h/2, w, h);
 }
 
@@ -34,4 +34,20 @@ CCSpriteFrame* CocosUtils::getSpriteFrameByName(const char* name)
 	CCSpriteFrame* frame = CCSpriteFrame::createWithTexture(tex, rect);
 	return frame;
 #endif
+}
+
+CCSprite* CocosUtils::getSprite( const char* name )
+{
+	return CCSprite::createWithSpriteFrame(getSpriteFrameByName(name));
+}
+
+bool CocosUtils::totallyOutOfScreen( CCNode* node )
+{
+	return !getScreenRect().intersectsRect(getSpriteRect(node));
+}
+
+cocos2d::CCRect CocosUtils::getScreenRect()
+{
+	CCSize size = getScreenSize();
+	return CCRectMake(0, 0, size.width, size.height);
 }
