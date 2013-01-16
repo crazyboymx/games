@@ -18,7 +18,7 @@ for file in sys.argv[1:]:
 	f = open(file + '.cpp', "w")
 	f.write("""
 #include "pch.h"
-#include "TenDrops.h"
+#include "project.h"
 """)
 	f.close();
 

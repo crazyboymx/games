@@ -49,7 +49,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..\Classes;$(SolutionDir)cocos2dx;$(SolutionDir)cocos2dx\include;$(SolutionDir)cocos2dx\kazmath\include;$(SolutionDir)cocos2dx\platform\win32;$(SolutionDir)cocos2dx\platform\third_party\win32;$(SolutionDir)cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)CocosDenshion\include"
+				AdditionalIncludeDirectories=".;..\Classes;..\..\shared\utils;&quot;$(SolutionDir)cocos2dx&quot;;&quot;$(SolutionDir)cocos2dx\include&quot;;&quot;$(SolutionDir)cocos2dx\kazmath\include&quot;;&quot;$(SolutionDir)cocos2dx\platform\win32&quot;;&quot;$(SolutionDir)cocos2dx\platform\third_party\win32&quot;;&quot;$(SolutionDir)cocos2dx\platform\third_party\win32\OGLES&quot;;&quot;$(SolutionDir)CocosDenshion\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;STRICT;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;COCOS2D_DEBUG=1;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..\Classes;$(SolutionDir)cocos2dx;$(SolutionDir)cocos2dx\include;$(SolutionDir)cocos2dx\kazmath\include;$(SolutionDir)cocos2dx\platform\win32;$(SolutionDir)cocos2dx\platform\third_party\win32;$(SolutionDir)cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)CocosDenshion\include"
+				AdditionalIncludeDirectories=".;..\Classes;..\..\shared\utils;&quot;$(SolutionDir)cocos2dx&quot;;&quot;$(SolutionDir)cocos2dx\include&quot;;&quot;$(SolutionDir)cocos2dx\kazmath\include&quot;;&quot;$(SolutionDir)cocos2dx\platform\win32&quot;;&quot;$(SolutionDir)cocos2dx\platform\third_party\win32&quot;;&quot;$(SolutionDir)cocos2dx\platform\third_party\win32\OGLES&quot;;&quot;$(SolutionDir)CocosDenshion\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;STRICT;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGSNDEBUG"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
@@ -201,57 +201,29 @@
 			<File
 				RelativePath="..\Classes\AppDelegate.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Classes\CocosUtils.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Classes\CocosUtils.h"
-				>
 			</File>
 			<File
 				RelativePath="..\Classes\Drop.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Classes\Drop.h"
+				>
 			</File>
 			<File
 				RelativePath="..\Classes\GameController.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Classes\GameController.h"
+				>
 			</File>
 			<File
 				RelativePath="..\Classes\GameOverLayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\GameOverLayer.h"
 				>
 			</File>
 			<File
@@ -259,32 +231,32 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Classes\InformationLayer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Classes\LevelConfiguration.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\LevelConfiguration.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Classes\MainLayer.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Classes\MainLayer.h"
+				>
 			</File>
 			<File
 				RelativePath="..\Classes\MainScene.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Classes\MainScene.h"
+				>
 			</File>
 			<File
 				RelativePath="..\Classes\Pch.cpp"
@@ -297,46 +269,14 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Classes\pch.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Classes\SoundManager.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Classes\TenDrops.cpp"
 				>
-			</File>
-			<File
-				RelativePath="..\Classes\Utils.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -371,10 +311,6 @@
 				RelativePath="..\Classes\TenDrops.h"
 				>
 			</File>
-			<File
-				RelativePath="..\Classes\Utils.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="resource"
@@ -398,6 +334,42 @@
 			</File>
 			<File
 				RelativePath=".\TenDrops.rc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="shared"
+			>
+			<File
+				RelativePath="..\..\shared\utils\CocosUtils.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\utils\CocosUtils.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\utils\SoundManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\utils\SoundManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\utils\Utils.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\shared\utils\Utils.h"
 				>
 			</File>
 		</Filter>
