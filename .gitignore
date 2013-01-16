@@ -22,8 +22,8 @@ Thumbs.db
 *.suo
 *.suo.old
 *.ncb
-*.sln.*user
-*.vcproj.*user
+*.sln.*.user
+*.vcproj.*.user
 /*.vcproj.bak*
 BuildLog.htm
 
