@@ -5,13 +5,28 @@
 bool LandsLayer::init()
 {
 	CCLayer::init();
-	CCSize size = CocosUtils::getScreenSize();
 
 	lands = CCArray::create();
 	lands->retain();
 
+	return true;
+}
+
+void LandsLayer::startPlay(LevelConfiguration* config)
+{
+	lands->removeAllObjects();
+	removeAllChildrenWithCleanup(true);
+	addLands(0);
+	unscheduleUpdate();
+	scheduleUpdate();
+}
+
+void LandsLayer::addLands(float offsetY)
+{
+	CCSize size = CocosUtils::getScreenSize();
 	int ncol = 2, nrow = 3;
 	float cellW = size.width/ncol, cellH = size.height/nrow;
+	float last_y = offsetY;
 	forn(col, 0, ncol)
 		forn(row, 0, nrow)
 		{
@@ -19,28 +34,32 @@ bool LandsLayer::init()
 			addChild(sprite);
 			lands->addObject(sprite);
 			float x = col*cellW;
-			float y = row*cellH;
-			sprite->setPosition(ccp(Utils::rand(x, x + cellW), Utils::rand(y, y + cellH)));
+			float y = offsetY + row*cellH;
+			sprite->setPosition(ccp(Utils::rand(x, x + cellW), MIN(last_y + cellH, Utils::rand(y, y + cellH))));
+			last_y = y;
 		}
-
-	return true;
 }
 
 void LandsLayer::move( float dy )
 {
 	forarray_reverse(CCNode*, land, lands)
 	{
-		if (CocosUtils::totallyOutOfScreen(land))
+		if (land->getPositionY() < 0)
 		{
 			removeChild(land, true);
 			lands->removeObject(land);
 		}
 		else
 		{
-			CCPoint p = land->getPosition();
-			land->setPosition(p.x, p.y + dy);
+			land->runAction(CCMoveBy::create(1.0f, ccp(0, dy)));
 		}
 	}
+}
+
+void LandsLayer::update(float time)
+{
+	if (lands->count() < 6)
+		addLands(((CCNode*)lands->lastObject())->getPositionY());
 }
 
 CCNode* LandsLayer::getLand(CCNode* node)

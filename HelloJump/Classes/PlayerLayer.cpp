@@ -12,6 +12,7 @@ bool PlayerLayer::init(LandsLayer* landsLayer)
 	this->lands = landsLayer;
 	this->lands->retain();
 
+	setTouchEnabled(true);
 	return true;
 }
 
@@ -32,6 +33,7 @@ PlayerLayer* PlayerLayer::create(LandsLayer* landsLayer)
 
 void PlayerLayer::jump()
 {
+	//return;
 	if (!jumpAction)
 	{
 		float height = CocosUtils::getScreenSize().height;
@@ -40,8 +42,8 @@ void PlayerLayer::jump()
 		*down1 = CCMoveBySingleDirection::create(2.0f,
 			-height, CCMoveBySingleDirection::DIRECTION_Y);
 
-		CCEaseIn *up = CCEaseIn::create(up1, 2.0f);
-		CCEaseOut *down = CCEaseOut::create(down1, 2.0f);
+		CCEaseOut *up = CCEaseOut::create(up1, 1.5f);
+		CCEaseIn *down = CCEaseIn::create(down1, 1.5f);
 
 		jumpAction = CCSequence::create(up,
 			CCCallFunc::create(this, callfunc_selector(PlayerLayer::upFinished)),
@@ -60,17 +62,24 @@ void PlayerLayer::upFinished()
 void PlayerLayer::update(float time)
 {
 	{
-		bool xmove = xMoving;
-		stopXMove();
 		float width = CocosUtils::getScreenSize().width;
 		float x = player->getPositionX();
+		bool xOutOfScreen = true;
 		if (x < 0)
 			x += width;
 		else if (x >= width)
 			x -= width;
-		player->setPositionX(x);
-		if (xmove)
-			restartXMove();
+		else
+			xOutOfScreen = false;
+
+		if (xOutOfScreen)
+		{
+			bool xmove = xMoving;
+			stopXMove();
+			player->setPositionX(x);
+			if (xmove)
+				restartXMove();
+		}
 	}
 	if (!downwards)
 		return;
@@ -81,7 +90,7 @@ void PlayerLayer::update(float time)
 		scheduleJump();
 		lands->move(30 - land->getPositionY());
 	}
-	else if (CocosUtils::totallyOutOfScreen(player))
+	else if (player->getPositionY() < 0)
 	{
 		GameController::sharedInstance()->levelFailed();
 		unscheduleUpdate();
@@ -90,12 +99,14 @@ void PlayerLayer::update(float time)
 
 void PlayerLayer::changeXSpeed( float dx )
 {
+	CCLOG("changeXSpeed: %f", dx);
 	float width = CocosUtils::getScreenSize().width;
 	stopXMove();
 	if (fabs(dx) >= 1)
 	{
 		CC_SAFE_RELEASE_NULL(xMoveAction);
-		xMoveAction = CCMoveBySingleDirection::create(width/dx, width, CCMoveBySingleDirection::DIRECTION_X);
+		float move = dx > 0 ? width : -width;
+		xMoveAction = CCMoveBySingleDirection::create(move/dx, move, CCMoveBySingleDirection::DIRECTION_X);
 		xMoveAction->retain();
 		restartXMove();
 	}
@@ -146,4 +157,42 @@ void PlayerLayer::startPlay( LevelConfiguration* config )
 	scheduleJump();
 	unscheduleUpdate();
 	scheduleUpdate();
+}
+
+enum
+{
+	DIR_NONE,
+	DIR_RIGHT,
+	DIR_LEFT
+};
+static int touchDir = DIR_NONE;
+
+void PlayerLayer::ccTouchesEnded( CCSet *pTouches, CCEvent *pEvent )
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	stopXMove();
+#endif
+}
+
+void PlayerLayer::ccTouchesMoved( CCSet *pTouches, CCEvent *pEvent )
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	CCTouch* touch = (CCTouch*) pTouches->anyObject();
+	// struct cc_timeval now;
+	// CCTime::gettimeofdayCocos2d(&now, NULL);
+	// changeXSpeed(touch->getDelta().x * 1000 / (CCTime::timersubCocos2d(&last_touch_time, &now)));
+	// last_touch_time = now;
+	int dir = touch->getDelta().x > 0 ? DIR_RIGHT : DIR_LEFT;
+	if (touchDir != dir)
+	{
+		touchDir = dir;
+		changeXSpeed(touchDir == DIR_RIGHT ? 160 : -160);
+	}
+#endif
+}
+
+void PlayerLayer::ccTouchesBegan( CCSet *pTouches, CCEvent *pEvent )
+{
+	touchDir = DIR_NONE;
+	// CCTime::gettimeofdayCocos2d(&last_touch_time, NULL);
 }

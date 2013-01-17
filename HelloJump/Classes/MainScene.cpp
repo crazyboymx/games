@@ -35,5 +35,6 @@ bool MainScene::init()
 
 void MainScene::startPlay( LevelConfiguration* config )
 {
+	landsLayer->startPlay(config);
 	playerLayer->startPlay(config);
 }

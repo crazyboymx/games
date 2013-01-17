@@ -12,6 +12,7 @@ class PlayerLayer : public CCLayer
 	LandsLayer* lands;
 	bool xMoving;
 	bool downwards;
+	cc_timeval last_touch_time;
 
 	PlayerLayer(): player(NULL), jumpAction(NULL), xMoveAction(NULL), lands(NULL),
 		xMoving(false), downwards(false)
@@ -24,6 +25,8 @@ public:
 	void stopXMove();
 	void stopJump();
 	void scheduleJump();
+	void upFinished();
+	void restartXMove();
 
 	// override
 	void update(float time);
@@ -31,8 +34,12 @@ public:
 	void changeXSpeed(float dx);
 
 	static PlayerLayer* create(LandsLayer* landsLayer);
-	void upFinished();
-	void restartXMove();
+
+	 // override
+	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
+    virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+    virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
+
 };
 
 #endif
