@@ -5,6 +5,9 @@
 bool BackgroundLayer::init()
 {
 	CCLayer::init();
-	addChild(CocosUtils::getSprite("background.png"));
+	CCSprite* background = CocosUtils::getSprite("background.png");
+	background->setAnchorPoint(ccp(0, 0));
+	background->setPosition(ccp(0, 0));
+	addChild(background);
 	return true;
 }

@@ -31,7 +31,7 @@ void CCMoveBySingleDirection::update(float time)
 {
     if (m_pTarget)
     {
-        if (m_direction == DIRECTION_Y)
+        if (m_direction == DIRECTION_X)
             m_pTarget->setPositionX(m_startPosition.x + m_delta.x * time);
         else
             m_pTarget->setPositionY(m_startPosition.y + m_delta.y * time);

@@ -15,7 +15,7 @@ bool LandsLayer::init()
 	forn(col, 0, ncol)
 		forn(row, 0, nrow)
 		{
-			CCSprite* sprite = CocosUtils::getSprite(Utils::rand(1, 2) == 1 ? "cloud1.png" : "cloud2.png");
+			CCSprite* sprite = CocosUtils::getSprite(Utils::rand(1, 2) == 1 ? "land1.png" : "land2.png");
 			addChild(sprite);
 			lands->addObject(sprite);
 			float x = col*cellW;

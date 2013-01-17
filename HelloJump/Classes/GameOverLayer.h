@@ -5,8 +5,9 @@
 class GameOverLayer : public CCLayer
 {
 	GameOverLayer(){}
-	bool init(){ return true; }
+	bool init();
 public:
+	void menuCallback(CCObject* o);
 	~GameOverLayer(){}
 	CREATE_FUNC(GameOverLayer);
 };

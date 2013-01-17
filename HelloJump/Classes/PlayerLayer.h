@@ -10,14 +10,18 @@ class PlayerLayer : public CCLayer
 	CCSprite* player;
 	CCAction* jumpAction, *xMoveAction;
 	LandsLayer* lands;
+	bool xMoving;
+	bool downwards;
 
-	PlayerLayer(): player(NULL), jumpAction(NULL), xMoveAction(NULL), lands(NULL)
+	PlayerLayer(): player(NULL), jumpAction(NULL), xMoveAction(NULL), lands(NULL),
+		xMoving(false), downwards(false)
 	{}
-	bool init();
+	bool init(LandsLayer* landsLayer);
 public:
 	~PlayerLayer();
 	void startPlay(LevelConfiguration* config);
 	void jump();
+	void stopXMove();
 	void stopJump();
 	void scheduleJump();
 
@@ -26,7 +30,9 @@ public:
 
 	void changeXSpeed(float dx);
 
-	CREATE_FUNC(PlayerLayer);
+	static PlayerLayer* create(LandsLayer* landsLayer);
+	void upFinished();
+	void restartXMove();
 };
 
 #endif

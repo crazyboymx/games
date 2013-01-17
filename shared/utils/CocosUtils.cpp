@@ -5,11 +5,12 @@
 
 cocos2d::CCRect CocosUtils::getSpriteRect( CCNode* sprite )
 {
+	CCPoint anchor = sprite->getAnchorPoint();
 	CCPoint p = sprite->getPosition();
 	CCSize size = sprite->getContentSize();
 	int w = size.width;
 	int h = size.height;
-	return CCRectMake(p.x - w/2, p.y - h/2, w, h);
+	return CCRectMake(p.x - w * anchor.x, p.y - h * anchor.y, w, h);
 }
 
 CCSize CocosUtils::getScreenSize()

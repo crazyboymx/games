@@ -21,12 +21,15 @@ bool MainScene::init()
 	lands->setTag(LAYER_LANDS);
 	addChild(lands);
 
-	PlayerLayer* playerLayer = PlayerLayer::create();
+	PlayerLayer* playerLayer = PlayerLayer::create(lands);
 	playerLayer->setTag(LAYER_PLAYER);
 	addChild(playerLayer);
 
 	this->landsLayer = lands;
 	lands->retain();
+
+	this->playerLayer = playerLayer;
+	playerLayer->retain();
 	return true;
 }
 
