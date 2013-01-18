@@ -11,6 +11,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 	$(shell cd $(LOCAL_PATH) && ls ../../../shared/utils/*.cpp)
 
 LOCAL_CPPFLAGS += -DHAS_TEXTURE_PACKED
+# -DCOCOS2D_DEBUG=2
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
 	$(LOCAL_PATH)/../../../shared/utils \

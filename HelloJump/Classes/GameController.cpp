@@ -53,13 +53,13 @@ void GameController::exitGame()
 
 void GameController::levelComplete()
 {
-	soundManager->playEffect("level_complete");
+	// soundManager->playEffect("level_complete");
 	mainScene->addChild(GameOverLayer::create(), 1);
 }
 
 void GameController::levelFailed()
 {
-	soundManager->playEffect("level_failed");
+	// soundManager->playEffect("level_failed");
 	mainScene->addChild(GameOverLayer::create(), 1);
 }
 

@@ -8,7 +8,8 @@ class LevelConfiguration;
 class PlayerLayer : public CCLayer
 {
 	CCSprite* player;
-	CCAction* jumpAction, *xMoveAction;
+	CCAction* jumpAction;
+	CCSpeed* xMoveAction;
 	LandsLayer* lands;
 	bool xMoving;
 	bool downwards;
@@ -22,6 +23,7 @@ public:
 	~PlayerLayer();
 	void startPlay(LevelConfiguration* config);
 	void jump();
+	void jumpOnSchedule(float time){ jump(); }
 	void stopXMove();
 	void stopJump();
 	void scheduleJump();
@@ -39,6 +41,7 @@ public:
 	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
     virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
     virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
+	virtual void didAccelerate( CCAcceleration* pAccelerationValue );
 
 };
 

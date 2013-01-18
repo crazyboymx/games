@@ -28,7 +28,7 @@ void LandsLayer::addLands(float offsetY)
 	float cellW = size.width/ncol, cellH = size.height/nrow;
 	float last_y = offsetY;
 	forn(col, 0, ncol)
-		forn(row, 0, nrow)
+		forn(row, 0, nrow*2)
 		{
 			CCSprite* sprite = CocosUtils::getSprite(Utils::rand(1, 2) == 1 ? "land1.png" : "land2.png");
 			addChild(sprite);
@@ -58,7 +58,7 @@ void LandsLayer::move( float dy )
 
 void LandsLayer::update(float time)
 {
-	if (lands->count() < 6)
+	if (lands->count() < 12)
 		addLands(((CCNode*)lands->lastObject())->getPositionY());
 }
 
